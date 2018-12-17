@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_learn"
+        android:icon="@drawable/ic_tab_learn"
+        android:title="@string/menu_learn" />
+    <item
+        android:id="@+id/action_store"
+        android:icon="@drawable/ic_tab_store"
+        android:title="@string/menu_store" />
+    <item
+        android:id="@+id/action_mine"
+        android:icon="@drawable/ic_tab_mine"
+        android:title="@string/menu_mine" />
+</menu>

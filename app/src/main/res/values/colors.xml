@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 通用 -->
+    <!-- 通用 系统 -->
+    <color name="colorPrimary">#004f93</color>
+    <color name="colorPrimaryDark">#004f93</color>
+    <color name="colorAccent">#f56e00</color>
+    <color name="windowBackground">#ffffff</color>
+
+    <!-- 通用 颜色 -->
+    <color name="colorOrange">#FAA60B</color>
+    <color name="colorStroke">#09649f</color>
+    <color name="colorGray">#33777777</color>
+    <color name="colorBlue">#095193</color>
+
+    <!-- 通用 字体 -->
+    <color name="colorTextWithe">#FFFFFF</color>
+    <color name="colorTextBlue">#004f93</color>
+    <color name="colorTextBlack">#717478</color>
+
+    <!-- 通用 线条 -->
+    <color name="colorLine">#33777777</color>
+
+    <!-- 通用 按钮 -->
+    <color name="colorBtnDef">#004f93</color>
+    <color name="colorBtnDefDown">#004f89</color>
+    <color name="colorRadioBtn">#b69a4a</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="lightgray">#ffd3d3d3</color>
+    <color name="lightgreen">#ff90ee90</color>
+    <color name="lightpink">#ffffb6c1</color>
+    <color name="lightskyblue">#ff87cefa</color>
+    <color name="gold">#ffffd700</color>
+    <color name="gray">#ff808080</color>
+    <color name="green">#ff008000</color>
+    <color name="slivergrey">#ff666666</color>
+    <color name="red">#ffff0000</color>
+    <color name="orange">#ffffa500</color>
+    <color name="pink">#ffffc0cb</color>
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="whitesmoke">#fff5f5f5</color>
+
+    <color name="common_bg_image_loading">#ffd9d9d9</color>
+    <color name="common_bg_page">#ffecedec</color>
+    <color name="common_line_color_text_border_gray">#ffbbbbbb</color>
+    <color name="common_line_color_title_bar_gray">#ffb4bac1</color>
+    <color name="common_profit_tab_focus_bg">#fffeebea</color>
+    <color name="common_text_color_black">#ff333333</color>
+    <color name="common_text_color_blue">#ff4d9dd7</color>
+    <color name="common_text_color_blue_focus">#ff1c8df5</color>
+    <color name="common_text_color_deep_gray">#ff595959</color>
+    <color name="common_text_color_gray">#ff7d7d7d</color>
+    <color name="common_text_color_green">#ff44ae30</color>
+    <color name="common_text_color_light_gray">#ffd0d0d0</color>
+    <color name="common_text_color_moderate_gray">#ff929292</color>
+    <color name="common_text_color_red">#ffe36466</color>
+    <color name="common_text_color_winered">#ffe16568</color>
+    <color name="common_text_color_winered_focus">#ffe14144</color>
+</resources>
