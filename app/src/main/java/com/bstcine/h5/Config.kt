@@ -28,26 +28,6 @@ class Config {
         }
     }
 
-    operator fun get(context: Context): Properties? {
-        var fis: FileInputStream? = null
-        val props = Properties()
-        try {
-            val dirConf = context.filesDir
-            fis = FileInputStream(dirConf.getPath() + File.separator
-                    + "config")
-
-            props.load(fis)
-        } catch (e: Exception) {
-        } finally {
-            try {
-                fis!!.close()
-            } catch (e: Exception) {
-            }
-
-        }
-        return props
-    }
-
     private fun setProps(context: Context, p: Properties?) {
         var fos: FileOutputStream? = null
         try {
@@ -66,6 +46,26 @@ class Config {
             }
 
         }
+    }
+
+    operator fun get(context: Context): Properties? {
+        var fis: FileInputStream? = null
+        val props = Properties()
+        try {
+            val dirConf = context.filesDir
+            fis = FileInputStream(dirConf.getPath() + File.separator
+                    + "config")
+
+            props.load(fis)
+        } catch (e: Exception) {
+        } finally {
+            try {
+                fis!!.close()
+            } catch (e: Exception) {
+            }
+
+        }
+        return props
     }
 
     operator fun get(context: Context, key: String): String? {
