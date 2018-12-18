@@ -1,5 +1,6 @@
-package com.bstcine.h5
+package com.bstcine.h5.utils
 
+import com.bstcine.h5.Config
 import com.google.gson.Gson
 import okhttp3.*
 import kotlin.collections.HashMap

@@ -7,7 +7,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import com.bstcine.h5.App
-import com.bstcine.h5.NetUtils
+import com.bstcine.h5.utils.NetUtils
 import com.bstcine.h5.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

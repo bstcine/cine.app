@@ -95,7 +95,7 @@ class WebFragment : Fragment() {
                 handler!!.proceed()
             }
         }
-        mWebView!!.loadUrl(Config.urlBindInfo(this.mHref!!))
+        mWebView!!.loadUrl(Config.bindUrl(this.mHref!!))
 
         return view
     }

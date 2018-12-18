@@ -15,7 +15,7 @@ class Config {
         const val STORE_URL: String = "http://dev.bstcine.com"
         const val MINE_URL: String = "http://dev.bstcine.com/user"
 
-        fun urlBindInfo(url: String): String {
+        fun bindUrl(url: String): String {
             var tempUrl = if (url.contains("?")) {
                 "$url&sitecode=cine.web.android.kotlin"
             } else {
