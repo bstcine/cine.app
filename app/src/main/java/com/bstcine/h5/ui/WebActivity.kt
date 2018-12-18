@@ -4,9 +4,10 @@ import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import com.bstcine.h5.App
 import com.bstcine.h5.R
 
-class WebActivity : AppCompatActivity() {
+class WebActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListener {
 
     @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,5 +30,9 @@ class WebActivity : AppCompatActivity() {
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onLogout() {
+        App.instance.logout()
     }
 }

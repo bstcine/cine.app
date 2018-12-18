@@ -1,6 +1,7 @@
 package com.bstcine.h5.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.http.SslError
 import android.os.Build
@@ -19,10 +20,17 @@ import com.bstcine.h5.R
 private const val ARG_HREF = "param_url"
 
 class WebFragment : Fragment() {
+
     private var mHref: String? = null
 
     private var mWebContainer: FrameLayout? = null
     private var mWebView: WebView? = null
+
+    private var listener: OnFragmentInteractionListener? = null
+
+    interface OnFragmentInteractionListener {
+        fun onLogout()
+    }
 
     companion object {
         @JvmStatic
@@ -100,6 +108,20 @@ class WebFragment : Fragment() {
         return view
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
     override fun onDestroy() {
         super.onDestroy()
 
@@ -119,5 +141,9 @@ class WebFragment : Fragment() {
         mWebView?.destroy()
 
         mWebView = null
+    }
+
+    fun onLogout() {
+        listener?.onLogout()
     }
 }
