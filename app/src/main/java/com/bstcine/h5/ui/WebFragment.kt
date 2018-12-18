@@ -29,7 +29,7 @@ class WebFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_webview, container, false)
+        val view = inflater.inflate(R.layout.fragment_web, container, false)
 
         val web = view.findViewById<WebView>(R.id.web)
         // 设置允许加载混合内容
