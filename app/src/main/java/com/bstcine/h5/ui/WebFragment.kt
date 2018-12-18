@@ -55,6 +55,9 @@ class WebFragment : Fragment() {
             mWebView!!.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
         mWebView!!.settings.javaScriptEnabled = true
+        mWebView!!.settings.allowFileAccess = true
+        mWebView!!.settings.domStorageEnabled = true
+        mWebView!!.settings.setAppCacheEnabled(true)
         mWebView!!.addJavascriptInterface(object {
             @JavascriptInterface
             fun login() {
