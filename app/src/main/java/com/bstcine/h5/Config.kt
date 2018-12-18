@@ -14,6 +14,18 @@ class Config {
         const val LEARN_URL: String = "http://dev.bstcine.com/learn"
         const val STORE_URL: String = "http://dev.bstcine.com"
         const val MINE_URL: String = "http://dev.bstcine.com/user"
+
+        fun urlBindInfo(url: String): String {
+            var tempUrl = if (url.contains("?")) {
+                "$url&sitecode=cine.web.android.kotlin"
+            } else {
+                "$url?sitecode=cine.web.android.kotlin"
+            }
+
+            if (App.instance.isLogin()) tempUrl += "&token=" + App.instance.token()
+
+            return tempUrl
+        }
     }
 
     private fun setProps(context: Context, p: Properties?) {
