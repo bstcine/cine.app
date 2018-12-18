@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.webkit.*
 import android.widget.FrameLayout
 import com.bstcine.h5.App
-import com.bstcine.h5.Config
 import com.bstcine.h5.R
 
 private const val ARG_HREF = "param_url"
@@ -94,8 +93,21 @@ class WebFragment : Fragment() {
             override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
                 handler!!.proceed()
             }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+
+                // 写入 token、sitecode 到 H5 LocalStorage
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    view!!.evaluateJavascript("window.localStorage.setItem('token','" + App.instance.token() + "');", null)
+                    view.evaluateJavascript("window.localStorage.setItem('sitecode','cine.web.android.kotlin');", null)
+                } else {
+                    view!!.loadUrl("javascript:localStorage.setItem('token','" + App.instance.token() + "');")
+                    view.loadUrl("javascript:localStorage.setItem('sitecode','cine.web.android.kotlin');")
+                }
+            }
         }
-        mWebView!!.loadUrl(Config.urlBindInfo(this.mHref!!))
+        mWebView!!.loadUrl(this.mHref!!)
 
         return view
     }
