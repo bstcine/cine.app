@@ -79,40 +79,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun removeFragment() {
-        val mFragmentManager = supportFragmentManager
-        val mCurTransaction = mFragmentManager.beginTransaction()
-
-        val nameLearn = makeFragmentName(R.id.action_learn)
-        val nameStore = makeFragmentName(R.id.action_store)
-        val nameMine = makeFragmentName(R.id.action_mine)
-        val nameCSub = makeFragmentName(R.id.action_csub)
-
-        val fragmentLearn = mFragmentManager.findFragmentByTag(nameLearn)
-        val fragmentStore = mFragmentManager.findFragmentByTag(nameStore)
-        val fragmentMine = mFragmentManager.findFragmentByTag(nameMine)
-        val fragmentCSub = mFragmentManager.findFragmentByTag(nameCSub)
-
-        if (fragmentLearn != null) mCurTransaction.remove(fragmentLearn)
-
-        if (fragmentMine != null) mCurTransaction.remove(fragmentMine)
-
-        if (fragmentStore != null) mCurTransaction.remove(fragmentStore)
-
-        if (fragmentCSub != null) mCurTransaction.remove(fragmentCSub)
-
-        mCurTransaction.commit()
+        for (fragment in supportFragmentManager.fragments) {
+            supportFragmentManager.beginTransaction().remove(fragment).commit()
+        }
     }
 
     private fun changeHandle() {
         if (!CineApplication.INSTANCE.isChange()) return
 
-        if (CineApplication.INSTANCE.isLogin()) {
-            removeFragment()
-            navigation.selectedItemId = mNextItemId ?: R.id.action_store
-        } else {
-            removeFragment()
-            navigation.selectedItemId = R.id.action_store
-        }
+        removeFragment()
+        navigation.selectedItemId = if (CineApplication.INSTANCE.isLogin()) mNextItemId
+                ?: R.id.action_store else R.id.action_store
 
         CineApplication.INSTANCE.change()
     }
