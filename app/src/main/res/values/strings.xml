@@ -6,8 +6,6 @@
     <string name="menu_learn">学习</string>
     <string name="menu_store">商城</string>
     <string name="menu_mine">我的</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_csub">csub</string>
 
 </resources>

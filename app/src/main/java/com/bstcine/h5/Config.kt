@@ -14,6 +14,7 @@ class Config {
         const val LEARN_URL: String = "http://dev.bstcine.com/learn"
         const val STORE_URL: String = "http://dev.bstcine.com"
         const val MINE_URL: String = "http://dev.bstcine.com/user"
+        const val CSUB_URL: String = "http://dev.bstcine.com/widget/csub"
 
         fun bindUrl(url: String): String {
             var tempUrl = if (url.contains("?")) {

@@ -27,12 +27,6 @@ class WebFragment : Fragment() {
     private var mWebContainer: FrameLayout? = null
     private var mWebView: WebView? = null
 
-    private var listener: OnFragmentInteractionListener? = null
-
-    interface OnFragmentInteractionListener {
-        fun onLogout()
-    }
-
     companion object {
         @JvmStatic
         fun newInstance(href: String) =
@@ -109,20 +103,6 @@ class WebFragment : Fragment() {
         return view
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
     override fun onDestroy() {
         super.onDestroy()
 
@@ -144,7 +124,4 @@ class WebFragment : Fragment() {
         mWebView = null
     }
 
-    fun onLogout() {
-        listener?.onLogout()
-    }
 }

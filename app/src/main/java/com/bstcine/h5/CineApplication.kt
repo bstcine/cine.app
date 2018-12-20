@@ -12,11 +12,21 @@ class CineApplication : Application() {
 
     private var login = false
 
+    private var change = false
+
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
 
         this.login = token() != null
+    }
+
+    fun isChange(): Boolean {
+        return change
+    }
+
+    fun change(){
+        this.change = false
     }
 
     fun isLogin(): Boolean {
@@ -31,11 +41,13 @@ class CineApplication : Application() {
         }
 
         this.login = true
+        this.change = true
     }
 
     fun logout() {
         Config().remove(this, "user.token")
         this.login = false
+        this.change = true
     }
 
     fun token(): String? {

@@ -11,4 +11,9 @@
         android:id="@+id/action_mine"
         android:icon="@drawable/ic_tab_mine"
         android:title="@string/menu_mine" />
+
+    <item
+        android:id="@+id/action_csub"
+        android:icon="@drawable/ic_tab_store"
+        android:title="@string/menu_csub" />
 </menu>

@@ -7,7 +7,7 @@ import android.view.MenuItem
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.R
 
-class WebActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListener {
+class WebActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +30,5 @@ class WebActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListen
         else -> {
             super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onLogout() {
-        CineApplication.INSTANCE.logout()
     }
 }

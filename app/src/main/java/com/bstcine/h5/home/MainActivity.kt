@@ -11,11 +11,13 @@ import com.bstcine.h5.R
 import com.bstcine.h5.login.LoginActivity
 import com.bstcine.h5.web.WebFragment
 
-class MainActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var navigation: BottomNavigationView
 
     private var mCurrentPrimaryItem: Fragment? = null
+
+    private var mNextItemId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListe
             val itemId = item.itemId
 
             if ((itemId == R.id.action_learn || itemId == R.id.action_mine) && !CineApplication.INSTANCE.isLogin()) {
+                mNextItemId = itemId
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 return@OnNavigationItemSelectedListener false
             }
@@ -55,6 +58,11 @@ class MainActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListe
         navigation.selectedItemId = R.id.action_store
     }
 
+    override fun onResume() {
+        super.onResume()
+        changeHandle()
+    }
+
     private fun makeFragmentName(id: Int): String {
         return "android:switcher:" + R.id.container + ":" + id
     }
@@ -65,6 +73,7 @@ class MainActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListe
             R.id.action_learn -> selectedFragment = WebFragment.newInstance(Config.LEARN_URL)
             R.id.action_store -> selectedFragment = WebFragment.newInstance(Config.STORE_URL)
             R.id.action_mine -> selectedFragment = WebFragment.newInstance(Config.MINE_URL)
+            R.id.action_csub -> selectedFragment = WebFragment.newInstance(Config.CSUB_URL)
         }
         return selectedFragment
     }
@@ -76,10 +85,12 @@ class MainActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListe
         val nameLearn = makeFragmentName(R.id.action_learn)
         val nameStore = makeFragmentName(R.id.action_store)
         val nameMine = makeFragmentName(R.id.action_mine)
+        val nameCSub = makeFragmentName(R.id.action_csub)
 
         val fragmentLearn = mFragmentManager.findFragmentByTag(nameLearn)
         val fragmentStore = mFragmentManager.findFragmentByTag(nameStore)
         val fragmentMine = mFragmentManager.findFragmentByTag(nameMine)
+        val fragmentCSub = mFragmentManager.findFragmentByTag(nameCSub)
 
         if (fragmentLearn != null) mCurTransaction.remove(fragmentLearn)
 
@@ -87,12 +98,22 @@ class MainActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListe
 
         if (fragmentStore != null) mCurTransaction.remove(fragmentStore)
 
+        if (fragmentCSub != null) mCurTransaction.remove(fragmentCSub)
+
         mCurTransaction.commit()
     }
 
-    override fun onLogout() {
-        CineApplication.INSTANCE.logout()
-        removeFragment()
-        navigation.selectedItemId = R.id.action_store
+    private fun changeHandle() {
+        if (!CineApplication.INSTANCE.isChange()) return
+
+        if (CineApplication.INSTANCE.isLogin()) {
+            removeFragment()
+            navigation.selectedItemId = mNextItemId ?: R.id.action_store
+        } else {
+            removeFragment()
+            navigation.selectedItemId = R.id.action_store
+        }
+
+        CineApplication.INSTANCE.change()
     }
 }
