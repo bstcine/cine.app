@@ -4,4 +4,4 @@
     android:id="@+id/webContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.WebFragment" />
+    tools:context=".web.WebFragment" />

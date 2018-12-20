@@ -1,13 +1,15 @@
-package com.bstcine.h5.ui
+package com.bstcine.h5.home
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import com.bstcine.h5.App
+import com.bstcine.h5.CineApplication
 import com.bstcine.h5.Config
 import com.bstcine.h5.R
+import com.bstcine.h5.login.LoginActivity
+import com.bstcine.h5.web.WebFragment
 
 class MainActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListener {
 
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListe
         navigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
             val itemId = item.itemId
 
-            if ((itemId == R.id.action_learn || itemId == R.id.action_mine) && !App.instance.isLogin()) {
+            if ((itemId == R.id.action_learn || itemId == R.id.action_mine) && !CineApplication.INSTANCE.isLogin()) {
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 return@OnNavigationItemSelectedListener false
             }
@@ -89,7 +91,7 @@ class MainActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListe
     }
 
     override fun onLogout() {
-        App.instance.logout()
+        CineApplication.INSTANCE.logout()
         removeFragment()
         navigation.selectedItemId = R.id.action_store
     }

@@ -4,17 +4,17 @@ import android.app.Application
 import java.util.*
 import kotlin.properties.Delegates
 
-class App : Application() {
+class CineApplication : Application() {
 
     companion object {
-        var instance: App by Delegates.notNull()
+        var INSTANCE: CineApplication by Delegates.notNull()
     }
 
     private var login = false
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
+        INSTANCE = this
 
         this.login = token() != null
     }

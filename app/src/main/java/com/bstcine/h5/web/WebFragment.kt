@@ -1,4 +1,4 @@
-package com.bstcine.h5.ui
+package com.bstcine.h5.web
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,9 +13,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
 import android.widget.FrameLayout
-import com.bstcine.h5.App
+import com.bstcine.h5.CineApplication
 import com.bstcine.h5.Config
 import com.bstcine.h5.R
+import com.bstcine.h5.login.LoginActivity
 
 private const val ARG_HREF = "param_url"
 
@@ -74,7 +75,7 @@ class WebFragment : Fragment() {
 
             @JavascriptInterface
             fun logout() {
-                App.instance.logout()
+                CineApplication.INSTANCE.logout()
             }
 
         }, "Android")
@@ -86,7 +87,7 @@ class WebFragment : Fragment() {
                 if (!url.contains("bstcine.com")) return true
 
                 if (url.contains("bstcine.com/auth/signin")) {
-                    App.instance.logout()
+                    CineApplication.INSTANCE.logout()
                     return true
                 }
 

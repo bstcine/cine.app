@@ -22,7 +22,7 @@ class Config {
                 "$url?sitecode=cine.web.android.kotlin"
             }
 
-            if (App.instance.isLogin()) tempUrl += "&token=" + App.instance.token()
+            if (CineApplication.INSTANCE.isLogin()) tempUrl += "&token=" + CineApplication.INSTANCE.token()
 
             return tempUrl
         }

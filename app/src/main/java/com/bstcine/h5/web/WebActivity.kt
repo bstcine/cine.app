@@ -1,10 +1,10 @@
-package com.bstcine.h5.ui
+package com.bstcine.h5.web
 
 import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.bstcine.h5.App
+import com.bstcine.h5.CineApplication
 import com.bstcine.h5.R
 
 class WebActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListener {
@@ -33,6 +33,6 @@ class WebActivity : AppCompatActivity(), WebFragment.OnFragmentInteractionListen
     }
 
     override fun onLogout() {
-        App.instance.logout()
+        CineApplication.INSTANCE.logout()
     }
 }
