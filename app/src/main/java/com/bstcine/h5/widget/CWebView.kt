@@ -3,6 +3,7 @@ package com.bstcine.h5.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
@@ -70,6 +71,9 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
         webSetting.pluginState = WebSettings.PluginState.ON_DEMAND
         CookieSyncManager.createInstance(this.context)
         CookieSyncManager.getInstance().sync()
+
+        // 设置允许加载混合内容
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) webSetting.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 
         //设置进度条
         mProgressBar = ProgressBar(mContext, null, android.R.attr.progressBarStyleHorizontal)
