@@ -1,22 +1,24 @@
 package com.bstcine.h5.web
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.net.http.SslError
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
-import android.widget.FrameLayout
+import android.widget.Toast
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.Config
 import com.bstcine.h5.R
 import com.bstcine.h5.login.LoginActivity
+import com.bstcine.h5.widget.CWebView
+import com.tencent.smtt.sdk.WebViewClient
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler
+import com.tencent.smtt.export.external.interfaces.SslError
+import com.tencent.smtt.sdk.WebView
 
 private const val ARG_HREF = "param_url"
 
@@ -24,8 +26,8 @@ class WebFragment : Fragment() {
 
     private var mHref: String? = null
 
-    private var mWebContainer: FrameLayout? = null
-    private var mWebView: WebView? = null
+    private var mRefresh: SwipeRefreshLayout? = null
+    private var mWebView: CWebView? = null
 
     companion object {
         @JvmStatic
@@ -49,36 +51,17 @@ class WebFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_web, container, false)
 
-        mWebContainer = view.findViewById(R.id.webContainer)
-        mWebView = WebView(activity!!.applicationContext)
-        mWebContainer?.addView(mWebView)
+        mRefresh = view.findViewById(R.id.refresh)
+        mWebView = CWebView(activity!!.applicationContext)
 
-        // 设置允许加载混合内容
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mWebView!!.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-        }
-        mWebView!!.settings.javaScriptEnabled = true
-        mWebView!!.settings.allowFileAccess = true
-        mWebView!!.settings.domStorageEnabled = true
-        mWebView!!.settings.setAppCacheEnabled(true)
-        mWebView!!.addJavascriptInterface(object {
-            @JavascriptInterface
-            fun login() {
-                startActivity(Intent(activity, LoginActivity::class.java))
-            }
+        mRefresh!!.addView(mWebView)
 
-            @JavascriptInterface
-            fun logout() {
-                CineApplication.INSTANCE.logout()
-            }
-
-        }, "Android")
+        mWebView!!.setSwipeRefreshLayout(mRefresh!!)
+        mRefresh!!.setOnRefreshListener { mWebView?.reload() }
         mWebView!!.webViewClient = object : WebViewClient() {
-            /**
-             * 防止加载网页时调起系统浏览器
-             */
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                if (!url.contains("bstcine.com")) return true
+
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                if (!url!!.contains("bstcine.com")) return true
 
                 if (url.contains("bstcine.com/auth/signin")) {
                     CineApplication.INSTANCE.logout()
@@ -91,13 +74,28 @@ class WebFragment : Fragment() {
                 return true
             }
 
-            /**
-             * 允许所有SSL证书
-             */
-            override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-                handler!!.proceed()
+            override fun onReceivedSslError(p0: WebView?, p1: SslErrorHandler?, p2: SslError?) {
+                p1!!.proceed()
             }
         }
+        mWebView!!.addJavascriptInterface(object {
+            @JavascriptInterface
+            fun login() {
+                startActivity(Intent(activity, LoginActivity::class.java))
+            }
+
+            @JavascriptInterface
+            fun logout() {
+                CineApplication.INSTANCE.logout()
+            }
+
+            @JavascriptInterface
+            fun openLessonPlayWindow() {
+                Toast.makeText(context, "原生控件", Toast.LENGTH_LONG).show()
+            }
+
+        }, "Android")
+
         mWebView!!.loadUrl(Config.bindUrl(this.mHref!!))
 
         return view
@@ -106,9 +104,7 @@ class WebFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
 
-        Log.i("WebFragment", "onDestroy")
-
-        mWebContainer!!.removeAllViews()
+        mRefresh!!.removeAllViews()
 
         mWebView?.clearHistory()
 
