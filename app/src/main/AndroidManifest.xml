@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name="com.bstcine.h5.CineApplication"
+        android:name=".CineApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.bstcine.h5.home.MainActivity"
+            android:name=".home.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,12 +29,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bstcine.h5.web.WebActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"/>
+            android:name=".web.WebActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name="com.bstcine.h5.login.LoginActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/activity_login"
             android:screenOrientation="portrait" />
+        <activity android:name=".home.BlankActivity"></activity>
     </application>
 
 </manifest>

@@ -71,7 +71,6 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
         CookieSyncManager.createInstance(this.context)
         CookieSyncManager.getInstance().sync()
 
-
         //设置进度条
         mProgressBar = ProgressBar(mContext, null, android.R.attr.progressBarStyleHorizontal)
         mProgressBar!!.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 6)
@@ -89,7 +88,7 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
             private var mActivity: AppCompatActivity? = null
 
             override fun onJsAlert(webView: WebView?, s: String?, s1: String?, jsResult: JsResult?): Boolean {
-                val b = AlertDialog.Builder(mContext)
+                val b = AlertDialog.Builder((this@CWebView.parent as ViewGroup).context)
                 b.setTitle("提示")
                 b.setMessage(s1)
                 b.setPositiveButton(android.R.string.ok) { dialog, which ->
@@ -102,7 +101,7 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
             }
 
             override fun onJsConfirm(webView: WebView?, s: String?, s1: String?, jsResult: JsResult?): Boolean {
-                val b = AlertDialog.Builder(mContext)
+                val b = AlertDialog.Builder((this@CWebView.parent as ViewGroup).context)
                 b.setTitle("提示")
                 b.setMessage(s1)
                 b.setPositiveButton(android.R.string.ok) { dialog, which ->

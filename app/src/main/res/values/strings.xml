@@ -8,4 +8,6 @@
     <string name="menu_mine">我的</string>
     <string name="menu_csub">csub</string>
 
+    <string name="openlessonplaywindow">openLessonPlayWindow</string>
+
 </resources>

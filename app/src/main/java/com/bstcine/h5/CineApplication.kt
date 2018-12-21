@@ -1,6 +1,7 @@
 package com.bstcine.h5
 
 import android.app.Application
+import com.bstcine.h5.utils.PropUtil
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -34,7 +35,7 @@ class CineApplication : Application() {
     }
 
     fun login(token: String) {
-        Config()[this] = object : Properties() {
+        PropUtil[this] = object : Properties() {
             init {
                 setProperty("user.token", token)
             }
@@ -45,12 +46,12 @@ class CineApplication : Application() {
     }
 
     fun logout() {
-        Config().remove(this, "user.token")
+        PropUtil.remove(this, "user.token")
         this.login = false
         this.change = true
     }
 
     fun token(): String? {
-        return Config()[this, "user.token"]
+        return PropUtil[this, "user.token"]
     }
 }

@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.Config
+import com.bstcine.h5.utils.PropUtil
 import com.bstcine.h5.R
 import com.bstcine.h5.login.LoginActivity
 import com.bstcine.h5.web.WebFragment

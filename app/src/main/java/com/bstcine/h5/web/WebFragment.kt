@@ -9,11 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
-import android.widget.Toast
 import com.bstcine.h5.CineApplication
-import com.bstcine.h5.Config
+import com.bstcine.h5.utils.PropUtil
 import com.bstcine.h5.R
 import com.bstcine.h5.login.LoginActivity
+import com.bstcine.h5.utils.UIUtil
 import com.bstcine.h5.widget.CWebView
 import com.tencent.smtt.sdk.WebViewClient
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler
@@ -46,7 +46,7 @@ class WebFragment : Fragment() {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_web, container, false)
@@ -63,7 +63,7 @@ class WebFragment : Fragment() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 if (!url!!.contains("bstcine.com")) return true
 
-                if (url.contains("bstcine.com/auth/signin")) {
+                if (url.contains("bstcine.com/auth/signin") || url.endsWith("bstcine.com/") || url.endsWith("bstcine.com")) {
                     CineApplication.INSTANCE.logout()
                     return true
                 }
@@ -80,23 +80,23 @@ class WebFragment : Fragment() {
         }
         mWebView!!.addJavascriptInterface(object {
             @JavascriptInterface
-            fun login() {
+            fun login(arg0: String) {
                 startActivity(Intent(activity, LoginActivity::class.java))
             }
 
             @JavascriptInterface
-            fun logout() {
+            fun logout(arg0: String) {
                 CineApplication.INSTANCE.logout()
             }
 
             @JavascriptInterface
-            fun openLessonPlayWindow() {
-                Toast.makeText(context, "原生控件", Toast.LENGTH_LONG).show()
+            fun openLessonPlayWindow(arg0: String) {
+                UIUtil.toBlank(this@WebFragment.context!!)
             }
 
         }, "Android")
 
-        mWebView!!.loadUrl(Config.bindUrl(this.mHref!!))
+        mWebView!!.loadUrl(bindUrl(this.mHref!!))
 
         return view
     }
@@ -118,6 +118,18 @@ class WebFragment : Fragment() {
         mWebView?.destroy()
 
         mWebView = null
+    }
+
+    fun bindUrl(url: String): String {
+        var tempUrl = if (url.contains("?")) {
+            "$url&sitecode=cine.web.android.kotlin"
+        } else {
+            "$url?sitecode=cine.web.android.kotlin"
+        }
+
+        if (CineApplication.INSTANCE.isLogin()) tempUrl += "&token=" + CineApplication.INSTANCE.token()
+
+        return tempUrl
     }
 
 }

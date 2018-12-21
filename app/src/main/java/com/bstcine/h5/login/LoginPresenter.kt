@@ -3,7 +3,7 @@ package com.bstcine.h5.login
 import android.util.Log
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.data.source.CineRepository
-import com.bstcine.h5.utils.NetUtils
+import com.bstcine.h5.utils.NetUtil
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Observable
@@ -44,7 +44,7 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
     fun loginOkHttp(data: Map<String, Any>) {
         val disposable = Observable
                 .create(ObservableOnSubscribe<Map<*, *>> { emitter ->
-                    NetUtils.post("/auth/signin", data, object : Callback {
+                    NetUtil.post("/api/auth/signin", data, object : Callback {
                         override fun onFailure(call: Call, e: IOException) {}
                         override fun onResponse(call: Call, response: Response) {
                             val result = Gson().fromJson(response.body()!!.string(), object : TypeToken<Map<String, Any>>() {}.rawType) as Map<*, *>
