@@ -1,4 +1,4 @@
-package com.bstcine.h5.data.source.remote
+package com.bstcine.h5
 
 import com.bstcine.h5.data.ResModel
 import io.reactivex.Flowable

@@ -1,4 +1,4 @@
-package com.bstcine.h5.home
+package com.bstcine.h5.ui.home
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -8,8 +8,8 @@ import android.support.v4.app.Fragment
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
-import com.bstcine.h5.login.LoginActivity
-import com.bstcine.h5.web.WebFragment
+import com.bstcine.h5.ui.WebFragment
+import com.bstcine.h5.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 

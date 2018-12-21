@@ -2,8 +2,8 @@ package com.bstcine.h5
 
 import android.webkit.JavascriptInterface
 import com.blankj.utilcode.util.ActivityUtils
-import com.bstcine.h5.home.BlankActivity
-import com.bstcine.h5.login.LoginActivity
+import com.bstcine.h5.ui.home.BlankActivity
+import com.bstcine.h5.ui.login.LoginActivity
 import android.os.Bundle
 
 

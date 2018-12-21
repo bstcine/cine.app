@@ -3,7 +3,7 @@ package com.bstcine.h5
 import android.app.Application
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.SPUtils
-import com.bstcine.h5.home.MainActivity
+import com.bstcine.h5.ui.home.MainActivity
 import kotlin.properties.Delegates
 
 class CineApplication : Application() {

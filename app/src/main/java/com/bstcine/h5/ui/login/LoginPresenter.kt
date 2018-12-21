@@ -1,4 +1,4 @@
-package com.bstcine.h5.login
+package com.bstcine.h5.ui.login
 
 import android.util.Log
 import com.bstcine.h5.CineApplication

@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".home.MainActivity"
+            android:name="com.bstcine.h5.ui.home.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,13 +29,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".web.WebActivity"
+            android:name="com.bstcine.h5.ui.WebActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name="com.bstcine.h5.ui.login.LoginActivity"
             android:label="@string/activity_login"
             android:screenOrientation="portrait" />
-        <activity android:name=".home.BlankActivity"></activity>
+        <activity android:name="com.bstcine.h5.ui.home.BlankActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.bstcine.h5.login
+package com.bstcine.h5.ui.login
 
 import com.bstcine.h5.BasePresenter
 import com.bstcine.h5.BaseView

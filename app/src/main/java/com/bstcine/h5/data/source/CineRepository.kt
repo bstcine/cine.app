@@ -3,7 +3,7 @@ package com.bstcine.h5.data.source
 import android.text.TextUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
-import com.bstcine.h5.data.source.remote.CineRemoteDataSource
+import com.bstcine.h5.CineRemoteDataSource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.*
