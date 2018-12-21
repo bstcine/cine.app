@@ -6,8 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import com.bstcine.h5.CineApplication
-import com.bstcine.h5.Config
-import com.bstcine.h5.utils.PropUtil
+import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
 import com.bstcine.h5.login.LoginActivity
 import com.bstcine.h5.web.WebFragment
@@ -71,10 +70,10 @@ class MainActivity : AppCompatActivity() {
     private fun getItem(itemId: Int): Fragment? {
         var selectedFragment: Fragment? = null
         when (itemId) {
-            R.id.action_learn -> selectedFragment = WebFragment.newInstance(Config.LEARN_URL)
-            R.id.action_store -> selectedFragment = WebFragment.newInstance(Config.STORE_URL)
-            R.id.action_mine -> selectedFragment = WebFragment.newInstance(Config.MINE_URL)
-            R.id.action_csub -> selectedFragment = WebFragment.newInstance(Config.CSUB_URL)
+            R.id.action_learn -> selectedFragment = WebFragment.newInstance(CineConfig.LEARN_URL)
+            R.id.action_store -> selectedFragment = WebFragment.newInstance(CineConfig.STORE_URL)
+            R.id.action_mine -> selectedFragment = WebFragment.newInstance(CineConfig.MINE_URL)
+            R.id.action_csub -> selectedFragment = WebFragment.newInstance(CineConfig.CSUB_URL)
         }
         return selectedFragment
     }

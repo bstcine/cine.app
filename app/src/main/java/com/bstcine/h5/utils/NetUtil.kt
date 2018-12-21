@@ -1,6 +1,6 @@
 package com.bstcine.h5.utils
 
-import com.bstcine.h5.Config
+import com.bstcine.h5.CineConfig
 import com.google.gson.Gson
 import okhttp3.*
 import kotlin.collections.HashMap
@@ -17,7 +17,7 @@ object NetUtil {
 
         val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), Gson().toJson(json))
         val request = Request.Builder()
-                .url(Config.BASE_URL + url)
+                .url(CineConfig.BASE_URL + url)
                 .post(body)
                 .build()
         client.newCall(request).enqueue(callback)

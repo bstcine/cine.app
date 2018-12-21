@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
 import com.bstcine.h5.CineApplication
-import com.bstcine.h5.utils.PropUtil
 import com.bstcine.h5.R
 import com.bstcine.h5.login.LoginActivity
 import com.bstcine.h5.utils.UIUtil

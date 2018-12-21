@@ -1,6 +1,6 @@
 package com.bstcine.h5
 
-object Config {
+object CineConfig {
 
     const val BASE_URL: String = "http://dev.bstcine.com"
 
