@@ -1,7 +1,9 @@
 package com.bstcine.h5
 
 import android.app.Application
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.SPUtils
+import com.bstcine.h5.home.MainActivity
 import kotlin.properties.Delegates
 
 class CineApplication : Application() {
@@ -12,7 +14,7 @@ class CineApplication : Application() {
 
     private var login = false
 
-    private var change = false
+    private var needRefreshHome = false
 
     override fun onCreate() {
         super.onCreate()
@@ -21,12 +23,12 @@ class CineApplication : Application() {
         this.login = token() != null
     }
 
-    fun isChange(): Boolean {
-        return change
+    fun needRefreshHome(): Boolean {
+        return needRefreshHome
     }
 
-    fun change() {
-        this.change = false
+    fun resetRefreshHome() {
+        this.needRefreshHome = false
     }
 
     fun isLogin(): Boolean {
@@ -37,14 +39,16 @@ class CineApplication : Application() {
         SPUtils.getInstance("auth").put("token", token)
 
         this.login = true
-        this.change = true
+        this.needRefreshHome = true
     }
 
     fun logout() {
         SPUtils.getInstance("auth").remove("token")
 
         this.login = false
-        this.change = true
+        this.needRefreshHome = true
+
+        if (ActivityUtils.getTopActivity() is MainActivity) (ActivityUtils.getTopActivity() as MainActivity).refreshHome()
     }
 
     fun token(): String? {

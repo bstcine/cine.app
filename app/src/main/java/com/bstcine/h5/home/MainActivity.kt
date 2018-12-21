@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        changeHandle()
+        refreshHome()
     }
 
     private fun makeFragmentName(id: Int): String {
@@ -84,13 +84,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeHandle() {
-        if (!CineApplication.INSTANCE.isChange()) return
+    fun refreshHome() {
+        if (CineApplication.INSTANCE.needRefreshHome()) {
+            removeFragment()
 
-        removeFragment()
-        navigation.selectedItemId = if (CineApplication.INSTANCE.isLogin()) mNextItemId
-                ?: R.id.action_store else R.id.action_store
+            navigation.selectedItemId = if (CineApplication.INSTANCE.isLogin() && mNextItemId != null) mNextItemId!! else R.id.action_store
 
-        CineApplication.INSTANCE.change()
+            CineApplication.INSTANCE.resetRefreshHome()
+        }
     }
 }

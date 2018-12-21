@@ -9,10 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
+import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.R
+import com.bstcine.h5.home.BlankActivity
 import com.bstcine.h5.login.LoginActivity
-import com.bstcine.h5.utils.UIUtil
 import com.bstcine.h5.widget.CWebView
 import com.tencent.smtt.sdk.WebViewClient
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler
@@ -90,7 +91,7 @@ class WebFragment : Fragment() {
 
             @JavascriptInterface
             fun openLessonPlayWindow(arg0: String) {
-                UIUtil.toBlank(this@WebFragment.context!!)
+                ActivityUtils.startActivity(BlankActivity::class.java)
             }
 
         }, "Android")
