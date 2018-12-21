@@ -8,12 +8,9 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.*
-import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.CineApplication
+import com.bstcine.h5.CineJsNative
 import com.bstcine.h5.R
-import com.bstcine.h5.home.BlankActivity
-import com.bstcine.h5.login.LoginActivity
 import com.bstcine.h5.widget.CWebView
 import com.tencent.smtt.sdk.WebViewClient
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler
@@ -78,23 +75,7 @@ class WebFragment : Fragment() {
                 p1!!.proceed()
             }
         }
-        mWebView!!.addJavascriptInterface(object {
-            @JavascriptInterface
-            fun login(arg0: String) {
-                startActivity(Intent(activity, LoginActivity::class.java))
-            }
-
-            @JavascriptInterface
-            fun logout(arg0: String) {
-                CineApplication.INSTANCE.logout()
-            }
-
-            @JavascriptInterface
-            fun openLessonPlayWindow(arg0: String) {
-                ActivityUtils.startActivity(BlankActivity::class.java)
-            }
-
-        }, "Android")
+        mWebView!!.addJavascriptInterface(CineJsNative(), "Android")
 
         mWebView!!.loadUrl(bindUrl(this.mHref!!))
 
@@ -120,7 +101,7 @@ class WebFragment : Fragment() {
         mWebView = null
     }
 
-    fun bindUrl(url: String): String {
+    private fun bindUrl(url: String): String {
         var tempUrl = if (url.contains("?")) {
             "$url&sitecode=cine.web.android.kotlin"
         } else {

@@ -3,6 +3,7 @@ package com.bstcine.h5.home
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import com.bstcine.h5.R
 
 class BlankActivity : AppCompatActivity() {
@@ -12,6 +13,9 @@ class BlankActivity : AppCompatActivity() {
         setContentView(R.layout.activity_blank)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val msg: TextView = findViewById(R.id.msg)
+        msg.text = intent?.extras?.getString("arg0")
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
