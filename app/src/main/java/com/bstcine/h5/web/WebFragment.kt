@@ -60,11 +60,6 @@ class WebFragment : Fragment() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 if (!url!!.contains("bstcine.com")) return true
 
-                if (url.contains("bstcine.com/auth/signin") || url.endsWith("bstcine.com/") || url.endsWith("bstcine.com")) {
-                    CineApplication.INSTANCE.logout()
-                    return true
-                }
-
                 val intent = Intent(activity, WebActivity::class.java)
                 intent.putExtra("url", url)
                 startActivity(intent)

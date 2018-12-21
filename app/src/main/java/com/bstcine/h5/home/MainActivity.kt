@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
             val itemId = item.itemId
 
-            if ((itemId == R.id.action_learn || itemId == R.id.action_mine) && !CineApplication.INSTANCE.isLogin()) {
+            if ((itemId == R.id.action_learn || itemId == R.id.action_mine || itemId == R.id.action_csub) && !CineApplication.INSTANCE.isLogin()) {
                 mNextItemId = itemId
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 return@OnNavigationItemSelectedListener false
@@ -88,7 +88,13 @@ class MainActivity : AppCompatActivity() {
         if (CineApplication.INSTANCE.needRefreshHome()) {
             removeFragment()
 
-            navigation.selectedItemId = if (CineApplication.INSTANCE.isLogin() && mNextItemId != null) mNextItemId!! else R.id.action_store
+            mCurrentPrimaryItem = null
+
+            if (CineApplication.INSTANCE.isLogin()) {
+                navigation.selectedItemId = mNextItemId ?: R.id.action_store
+            } else {
+                navigation.selectedItemId = R.id.action_store
+            }
 
             CineApplication.INSTANCE.resetRefreshHome()
         }

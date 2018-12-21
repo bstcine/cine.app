@@ -7,5 +7,6 @@
     <string name="menu_store">商城</string>
     <string name="menu_mine">我的</string>
     <string name="menu_csub">csub</string>
+    <string name="btn_logout">logout</string>
 
 </resources>
