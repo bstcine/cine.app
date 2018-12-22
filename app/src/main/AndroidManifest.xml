@@ -35,7 +35,7 @@
             android:name="com.bstcine.h5.ui.login.LoginActivity"
             android:label="@string/activity_login"
             android:screenOrientation="portrait" />
-        <activity android:name="com.bstcine.h5.ui.home.BlankActivity"></activity>
+        <activity android:name="com.bstcine.h5.ui.BlankActivity"></activity>
     </application>
 
 </manifest>

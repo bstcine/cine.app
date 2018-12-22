@@ -3,7 +3,7 @@ package com.bstcine.h5.data.source
 import android.text.TextUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
-import com.bstcine.h5.CineRemoteDataSource
+import com.bstcine.h5.CineAPI
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.*
@@ -25,7 +25,7 @@ class CineRepository {
         val instance: CineRepository by lazy { Holder.INSTANCE }
     }
 
-    var mRemoteDataSource: CineRemoteDataSource
+    var mRemoteDataSource: CineAPI
 
     init {
         val httpClient = OkHttpClient.Builder()
@@ -79,6 +79,6 @@ class CineRepository {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(httpClient.build())
                 .build()
-        mRemoteDataSource = retrofit.create(CineRemoteDataSource::class.java)
+        mRemoteDataSource = retrofit.create(CineAPI::class.java)
     }
 }

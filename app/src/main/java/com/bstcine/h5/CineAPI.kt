@@ -5,7 +5,7 @@ import io.reactivex.Flowable
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface CineRemoteDataSource {
+interface CineAPI {
 
     @POST("api/auth/signin")
     fun login(@Body data: Any): Flowable<ResModel<Any>>
