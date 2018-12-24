@@ -44,4 +44,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     override fun onLoginSuccess(token: String, user: Map<*, *>) {
         onBackPressed()
     }
+
+    override fun onLoginSuccessWithoutRx(token: String, user: Map<*, *>) {
+        runOnUiThread { onBackPressed() }
+    }
 }

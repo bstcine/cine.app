@@ -9,6 +9,8 @@ interface LoginContract {
 
         fun onLoginSuccess(token: String, user: Map<*, *>)
 
+        fun onLoginSuccessWithoutRx(token: String, user: Map<*, *>)
+
     }
 
     interface Presenter : BasePresenter {

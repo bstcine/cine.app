@@ -41,31 +41,21 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
         loginRetrofit(data)
     }
 
-    fun loginOkHttp(data: Map<String, Any>) {
-        val disposable = Observable
-                .create(ObservableOnSubscribe<Map<*, *>> { emitter ->
-                    NetUtil.post("/api/auth/signin", data, object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {}
-                        override fun onResponse(call: Call, response: Response) {
-                            val result = Gson().fromJson(response.body()!!.string(), object : TypeToken<Map<String, Any>>() {}.rawType) as Map<*, *>
-                            val rs = result["result"] as Map<*, *>
-                            emitter.onNext(rs)
-                        }
-                    })
-                })
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ rs ->
-                    val token = rs["token"].toString()
-                    CineApplication.INSTANCE.login(token)
-                    loginView.onLoginSuccess(token, rs["user"] as Map<*, *>)
-                }, { error ->
-                    Log.i("tag", error.printStackTrace().toString())
-                })
-        mCompositeDisposable.add(disposable)
+    private fun loginOkHttp(data: Map<String, Any>) {
+        NetUtil.post("/api/auth/signin", data, object : Callback {
+            override fun onFailure(call: Call, e: IOException) {}
+            override fun onResponse(call: Call, response: Response) {
+                val result = Gson().fromJson(response.body()!!.string(), object : TypeToken<Map<String, Any>>() {}.rawType) as Map<*, *>
+                val rs = result["result"] as Map<*, *>
+
+                val token = rs["token"].toString()
+                CineApplication.INSTANCE.login(token)
+                loginView.onLoginSuccessWithoutRx(token, rs["user"] as Map<*, *>)
+            }
+        })
     }
 
-    fun loginRetrofit(data: Map<String,Any>){
+    private fun loginRetrofit(data: Map<String,Any>){
         val disposable = CineRepository.instance.mRemoteDataSource
                 .login(data)
                 .subscribeOn(Schedulers.computation())
