@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
@@ -30,6 +31,13 @@ class MainActivity : AppCompatActivity() {
             if (mCurrentPrimaryItem is WebFragment) {
                 (mCurrentPrimaryItem as WebFragment).emitJavascript("android_call_h5_test", "joe")
             }
+        }
+
+        findViewById<FloatingActionButton>(R.id.fab).setOnLongClickListener {
+            CineApplication.INSTANCE.logout()
+            refreshHome()
+
+            true
         }
 
         navigation = findViewById(R.id.navigation)
@@ -106,6 +114,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 navigation.selectedItemId = R.id.action_store
             }
+
+            mNextItemId = null
 
             CineApplication.INSTANCE.resetRefreshHome()
         }
