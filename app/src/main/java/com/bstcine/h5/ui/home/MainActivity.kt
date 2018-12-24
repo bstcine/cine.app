@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
