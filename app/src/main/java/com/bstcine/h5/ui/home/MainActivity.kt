@@ -86,9 +86,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun removeFragment() {
+        val mCurTransaction = supportFragmentManager.beginTransaction()
+
         for (fragment in supportFragmentManager.fragments) {
-            supportFragmentManager.beginTransaction().remove(fragment).commit()
+            mCurTransaction.remove(fragment)
         }
+
+        mCurTransaction.commit()
     }
 
     fun refreshHome() {
