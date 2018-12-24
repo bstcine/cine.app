@@ -108,4 +108,12 @@ class WebFragment : Fragment() {
         return tempUrl
     }
 
+    fun runTestJs(){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            mWebView?.evaluateJavascript("window._cine_listener.emit('android_call_h5_test','由原生调用显示')", null)
+        } else {
+            mWebView?.loadUrl("javascript:window._cine_listener.emit('android_call_h5_test','由原生调用显示')")
+        }
+    }
+
 }

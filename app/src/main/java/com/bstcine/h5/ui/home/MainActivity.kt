@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportActionBar?.hide()
+
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            if(mCurrentPrimaryItem is WebFragment) (mCurrentPrimaryItem as WebFragment).runTestJs()
+        }
 
         navigation = findViewById(R.id.navigation)
         navigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
