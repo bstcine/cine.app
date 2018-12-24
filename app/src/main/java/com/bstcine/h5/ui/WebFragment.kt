@@ -50,7 +50,7 @@ class WebFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_web, container, false)
 
         mRefresh = view.findViewById(R.id.refresh)
-        mWebView = CWebView(activity!!.applicationContext)
+        mWebView = CWebView(context!!)
 
         mRefresh!!.addView(mWebView)
 
