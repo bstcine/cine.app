@@ -12,6 +12,7 @@ import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineJsNative
 import com.bstcine.h5.R
 import com.bstcine.h5.widget.CWebView
+import com.google.gson.Gson
 import com.tencent.smtt.sdk.WebViewClient
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler
 import com.tencent.smtt.export.external.interfaces.SslError
@@ -108,11 +109,11 @@ class WebFragment : Fragment() {
         return tempUrl
     }
 
-    fun runTestJs(){
+    fun emitJavascript(name: String, arg: Any) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            mWebView?.evaluateJavascript("window._cine_listener.emit('android_call_h5_test','由原生调用显示')", null)
+            mWebView?.evaluateJavascript("window._cine_listener.emit('$name',${Gson().toJson(arg)})", null)
         } else {
-            mWebView?.loadUrl("javascript:window._cine_listener.emit('android_call_h5_test','由原生调用显示')")
+            mWebView?.loadUrl("javascript:window._cine_listener.emit('$name',${Gson().toJson(arg)})")
         }
     }
 

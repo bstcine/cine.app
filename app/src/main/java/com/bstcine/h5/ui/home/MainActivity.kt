@@ -27,7 +27,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            if(mCurrentPrimaryItem is WebFragment) (mCurrentPrimaryItem as WebFragment).runTestJs()
+            if (mCurrentPrimaryItem is WebFragment) {
+                (mCurrentPrimaryItem as WebFragment).emitJavascript("android_call_h5_test", "joe")
+            }
         }
 
         navigation = findViewById(R.id.navigation)

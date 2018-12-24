@@ -58,7 +58,7 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
     private fun loginRetrofit(data: Map<String,Any>){
         val disposable = CineRepository.instance.mRemoteDataSource
                 .login(data)
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
                     val rs = result.result!! as Map<*, *>
