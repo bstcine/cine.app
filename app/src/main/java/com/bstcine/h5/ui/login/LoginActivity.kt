@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
-            onBackPressed()
+            finish()
             true
         }
         else -> {
@@ -42,10 +42,10 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun onLoginSuccess(token: String, user: Map<*, *>) {
-        onBackPressed()
+        finish()
     }
 
     override fun onLoginSuccessWithoutRx(token: String, user: Map<*, *>) {
-        runOnUiThread { onBackPressed() }
+        runOnUiThread { finish() }
     }
 }

@@ -30,8 +30,8 @@
         </activity>
         <activity
             android:name="com.bstcine.h5.ui.WebActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:hardwareAccelerated="true" />
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.bstcine.h5.ui.login.LoginActivity"
             android:label="@string/activity_login"

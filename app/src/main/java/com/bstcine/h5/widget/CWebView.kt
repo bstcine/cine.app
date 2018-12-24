@@ -33,19 +33,7 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
 
     private var mSRL: SwipeRefreshLayout? = null
 
-    private val client = object : WebViewClient() {
-        /**
-         * 防止加载网页时调起系统浏览器
-         */
-        override fun shouldOverrideUrlLoading(view: WebView, url: String?): Boolean {
-            view.loadUrl(url)
-            return true
-        }
-    }
-
     init {
-        this.webViewClient = client
-
         initWebViewSettings()
         this.view.isClickable = true
     }
@@ -56,7 +44,7 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
         webSetting.allowFileAccess = true
         webSetting.layoutAlgorithm = WebSettings.LayoutAlgorithm.NARROW_COLUMNS
         webSetting.setSupportZoom(false)
-        webSetting.builtInZoomControls = true
+        webSetting.builtInZoomControls = false
         webSetting.useWideViewPort = true
         webSetting.setSupportMultipleWindows(false)
         webSetting.setAppCacheEnabled(true)
@@ -65,10 +53,8 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
         webSetting.setGeolocationEnabled(true)
         webSetting.setAppCacheMaxSize(java.lang.Long.MAX_VALUE)
         webSetting.setAppCachePath(this.context.getDir("appcache", 0).path)
-        webSetting.databasePath = this.context.getDir("databases", 0).path
         webSetting.setGeolocationDatabasePath(this.context.getDir("geolocation", 0)
                 .path)
-        webSetting.pluginState = WebSettings.PluginState.ON_DEMAND
         CookieSyncManager.createInstance(this.context)
         CookieSyncManager.getInstance().sync()
 
@@ -149,7 +135,7 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
                 if (mProgressBar != null) {
                     if (newProgress == 100) {
                         mProgressBar!!.visibility = View.GONE
-                        if (mSRL != null) mSRL!!.isRefreshing = false
+                        mSRL?.isRefreshing = false
                     } else {
                         if (mProgressBar!!.visibility == View.GONE)
                             mProgressBar!!.visibility = View.VISIBLE
@@ -160,6 +146,31 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
                 super.onProgressChanged(view, newProgress)
             }
         }
+
+        //设置 WebViewClient
+        webViewClient = object : WebViewClient() {
+            /**
+             * 防止加载网页时调起系统浏览器
+             */
+            override fun shouldOverrideUrlLoading(view: WebView, url: String?): Boolean {
+                view.loadUrl(url)
+                return true
+            }
+        }
+    }
+
+    override fun destroy() {
+        if (mProgressBar != null) removeView(mProgressBar)
+
+        clearFormData()
+        clearHistory()
+        clearCache(true)
+
+        loadUrl("about:blank")
+        onPause()
+        removeAllViews()
+
+        super.destroy()
     }
 
     fun setSwipeRefreshLayout(srl: SwipeRefreshLayout) {

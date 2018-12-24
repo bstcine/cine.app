@@ -50,7 +50,7 @@ class WebFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_web, container, false)
 
         mRefresh = view.findViewById(R.id.refresh)
-        mWebView = CWebView(context!!)
+        mWebView = CWebView(context!!.applicationContext)
 
         mRefresh!!.addView(mWebView)
 
@@ -81,19 +81,7 @@ class WebFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
 
-        mRefresh!!.removeAllViews()
-
-        mWebView?.clearHistory()
-
-        mWebView?.clearCache(true)
-
-        mWebView?.loadUrl("about:blank")
-
-        mWebView?.onPause()
-        mWebView?.removeAllViews()
-
         mWebView?.destroy()
-
         mWebView = null
     }
 
