@@ -17,11 +17,7 @@ import android.widget.RelativeLayout
 import com.bstcine.h5.R
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
 import com.tencent.smtt.export.external.interfaces.JsResult
-import com.tencent.smtt.sdk.CookieSyncManager
-import com.tencent.smtt.sdk.WebChromeClient
-import com.tencent.smtt.sdk.WebSettings
-import com.tencent.smtt.sdk.WebView
-import com.tencent.smtt.sdk.WebViewClient
+import com.tencent.smtt.sdk.*
 
 /**
  * Created by itwangxiang on 2018/1/10.
@@ -35,28 +31,31 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
 
     init {
         initWebViewSettings()
-        this.view.isClickable = true
+        view.isClickable = true
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebViewSettings() {
         val webSetting = this.settings
+        webSetting.javaScriptEnabled = true
+        webSetting.javaScriptCanOpenWindowsAutomatically = true
         webSetting.allowFileAccess = true
         webSetting.layoutAlgorithm = WebSettings.LayoutAlgorithm.NARROW_COLUMNS
-        webSetting.setSupportZoom(false)
-        webSetting.builtInZoomControls = false
+        webSetting.setSupportZoom(true)
+        webSetting.builtInZoomControls = true
         webSetting.useWideViewPort = true
-        webSetting.setSupportMultipleWindows(false)
+        webSetting.setSupportMultipleWindows(true)
+        // webSetting.setLoadWithOverviewMode(true);
         webSetting.setAppCacheEnabled(true)
+        webSetting.setAppCachePath(mContext.applicationContext.getDir("cache", Context.MODE_PRIVATE).getPath());
+        // webSetting.setDatabaseEnabled(true);
         webSetting.domStorageEnabled = true
-        webSetting.javaScriptEnabled = true
         webSetting.setGeolocationEnabled(true)
         webSetting.setAppCacheMaxSize(java.lang.Long.MAX_VALUE)
-        webSetting.setAppCachePath(this.context.getDir("appcache", 0).path)
-        webSetting.setGeolocationDatabasePath(this.context.getDir("geolocation", 0)
-                .path)
-        CookieSyncManager.createInstance(this.context)
-        CookieSyncManager.getInstance().sync()
+        // webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
+        webSetting.pluginState = WebSettings.PluginState.ON_DEMAND
+        // webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSetting.cacheMode = WebSettings.LOAD_DEFAULT
 
         // 设置允许加载混合内容
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) webSetting.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
