@@ -1,11 +1,13 @@
 package com.bstcine.h5.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
@@ -13,6 +15,8 @@ import com.bstcine.h5.ui.WebFragment
 import com.bstcine.h5.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
+
+    val LOGIN_REQUEST = 10001
 
     private lateinit var navigation: BottomNavigationView
 
@@ -34,8 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fab).setOnLongClickListener {
             CineApplication.INSTANCE.logout()
-            refreshHome()
-
+            reloadFragment()
             true
         }
 
@@ -45,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
             if ((itemId == R.id.action_learn || itemId == R.id.action_mine || itemId == R.id.action_csub) && !CineApplication.INSTANCE.isLogin()) {
                 mNextItemId = itemId
-                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                ActivityUtils.startActivityForResult(this@MainActivity, LoginActivity::class.java, LOGIN_REQUEST)
                 return@OnNavigationItemSelectedListener false
             }
 
@@ -65,16 +68,24 @@ class MainActivity : AppCompatActivity() {
                 mCurTransaction.hide(mCurrentPrimaryItem!!)
             }
 
-            mCurTransaction.commit()
+            mCurTransaction.commitNowAllowingStateLoss()
+
+            mNextItemId = null
             mCurrentPrimaryItem = fragment
             true
         })
         navigation.selectedItemId = R.id.action_store
     }
 
-    override fun onResume() {
-        super.onResume()
-        refreshHome()
+    @SuppressLint("MissingSuperCall")
+    override fun onSaveInstanceState(outState: Bundle) {
+        //super.onSaveInstanceState(outState);解决重启Fragment重叠问题
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == LOGIN_REQUEST && resultCode == 1) {
+            reloadFragment()
+        }
     }
 
     private fun makeFragmentName(id: Int): String {
@@ -92,31 +103,14 @@ class MainActivity : AppCompatActivity() {
         return selectedFragment
     }
 
-    private fun removeFragment() {
-        val mCurTransaction = supportFragmentManager.beginTransaction()
-
-        for (fragment in supportFragmentManager.fragments) {
+    private fun reloadFragment() {
+        val mFragmentManager = supportFragmentManager
+        val mCurTransaction = mFragmentManager.beginTransaction()
+        for (fragment in mFragmentManager.fragments) {
             mCurTransaction.remove(fragment)
         }
-
-        mCurTransaction.commit()
-    }
-
-    fun refreshHome() {
-        if (CineApplication.INSTANCE.needRefreshHome()) {
-            removeFragment()
-
-            mCurrentPrimaryItem = null
-
-            if (CineApplication.INSTANCE.isLogin()) {
-                navigation.selectedItemId = mNextItemId ?: R.id.action_store
-            } else {
-                navigation.selectedItemId = R.id.action_store
-            }
-
-            mNextItemId = null
-
-            CineApplication.INSTANCE.resetRefreshHome()
-        }
+        mCurTransaction.commitNowAllowingStateLoss()
+        mCurrentPrimaryItem = null
+        navigation.selectedItemId = mNextItemId ?: R.id.action_store
     }
 }

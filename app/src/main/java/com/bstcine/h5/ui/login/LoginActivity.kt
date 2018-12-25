@@ -42,10 +42,14 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun onLoginSuccess(token: String, user: Map<*, *>) {
+        setResult(1)
         finish()
     }
 
     override fun onLoginSuccessWithoutRx(token: String, user: Map<*, *>) {
-        runOnUiThread { finish() }
+        runOnUiThread {
+            setResult(1)
+            finish()
+        }
     }
 }

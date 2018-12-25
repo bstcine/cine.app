@@ -18,12 +18,6 @@ class BlankActivity : AppCompatActivity() {
 
         val msg: TextView = findViewById(R.id.msg)
         msg.text = intent?.extras?.getString("arg0")
-
-        val logout: Button = findViewById(R.id.logout)
-        logout.setOnClickListener {
-            CineApplication.INSTANCE.logout()
-            onBackPressed()
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
