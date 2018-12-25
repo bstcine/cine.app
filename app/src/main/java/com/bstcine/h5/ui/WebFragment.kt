@@ -2,9 +2,12 @@ package com.bstcine.h5.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +16,12 @@ import com.bstcine.h5.CineJsNative
 import com.bstcine.h5.R
 import com.bstcine.h5.widget.CWebView
 import com.google.gson.Gson
+import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
+import com.tencent.smtt.export.external.interfaces.JsResult
 import com.tencent.smtt.sdk.WebViewClient
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler
 import com.tencent.smtt.export.external.interfaces.SslError
+import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 
 private const val ARG_HREF = "param_url"
@@ -54,7 +60,6 @@ class WebFragment : Fragment() {
 
         mRefresh!!.addView(mWebView)
 
-        mWebView!!.setSwipeRefreshLayout(mRefresh!!)
         mRefresh!!.setOnRefreshListener { mWebView?.reload() }
         mWebView!!.webViewClient = object : WebViewClient() {
 
@@ -69,6 +74,70 @@ class WebFragment : Fragment() {
 
             override fun onReceivedSslError(p0: WebView?, p1: SslErrorHandler?, p2: SslError?) {
                 p1!!.proceed()
+            }
+        }
+        mWebView!!.webChromeClient = object : WebChromeClient() {
+
+            private var mParent: ViewGroup? = null
+
+            private var mCustomView: View? = null
+
+            override fun onJsAlert(webView: WebView?, s: String?, s1: String?, jsResult: JsResult?): Boolean {
+                val b = AlertDialog.Builder(context!!)
+                b.setTitle("提示")
+                b.setMessage(s1)
+                b.setPositiveButton(android.R.string.ok) { dialog, which ->
+                    jsResult!!.confirm()
+                    dialog.dismiss()
+                }
+                b.setCancelable(false)
+                b.create().show()
+                return true
+            }
+
+            override fun onJsConfirm(webView: WebView?, s: String?, s1: String?, jsResult: JsResult?): Boolean {
+                val b = AlertDialog.Builder(context!!)
+                b.setTitle("提示")
+                b.setMessage(s1)
+                b.setPositiveButton(android.R.string.ok) { dialog, which ->
+                    jsResult!!.confirm()
+                    dialog.dismiss()
+                }
+                b.setNegativeButton(android.R.string.cancel) { dialog, which ->
+                    jsResult!!.cancel()
+                    dialog.dismiss()
+                }
+                b.setCancelable(false)
+                b.create().show()
+                return true
+            }
+
+            override fun onShowCustomView(view: View?, customViewCallback: IX5WebChromeClient.CustomViewCallback?) {
+                super.onShowCustomView(view, customViewCallback)
+
+                mParent = mWebView!!.parent.parent as ViewGroup
+                (activity as AppCompatActivity).supportActionBar?.hide()
+
+                view?.setBackgroundColor(Color.parseColor("#ffffff"))
+                mParent?.addView(view)
+
+                mCustomView = view
+            }
+
+            override fun onHideCustomView() {
+                super.onHideCustomView()
+
+                (activity as AppCompatActivity).supportActionBar?.show()
+
+                if (mCustomView != null) {
+                    mParent?.removeView(mCustomView)
+                    mCustomView = null
+                }
+            }
+
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                mRefresh?.isRefreshing = newProgress != 100
+                super.onProgressChanged(view, newProgress)
             }
         }
         mWebView!!.addJavascriptInterface(CineJsNative(), "Android")
