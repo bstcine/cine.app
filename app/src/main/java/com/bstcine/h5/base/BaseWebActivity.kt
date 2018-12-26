@@ -11,7 +11,7 @@ class BaseWebActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_web)
+        setContentView(R.layout.base_activity_web)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
