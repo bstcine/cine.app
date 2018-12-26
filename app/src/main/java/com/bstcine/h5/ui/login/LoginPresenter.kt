@@ -14,6 +14,7 @@ import okhttp3.Callback
 import okhttp3.Response
 import java.io.IOException
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
 class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presenter {
@@ -55,22 +56,23 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
         })
     }
 
-    private fun loginRetrofit(data: Map<String,Any>){
+    private fun loginRetrofit(data: Map<String, Any>) {
         val disposable = CineRepository.instance.mRemoteDataSource
                 .login(data)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    val rs = result.result!! as Map<*, *>
+                .subscribeBy(
+                        onError = { it.printStackTrace() },
+                        onNext = {
+                            val rs = it.result!! as Map<*, *>
 
-                    val token = rs["token"].toString()
-                    val user = rs["user"] as Map<*, *>
+                            val token = rs["token"].toString()
+                            val user = rs["user"] as Map<*, *>
 
-                    CineApplication.INSTANCE.login(token)
-                    loginView.onLoginSuccess(token, user)
-                }, { error ->
-                    Log.i("tag", error.printStackTrace().toString())
-                })
+                            CineApplication.INSTANCE.login(token)
+                            loginView.onLoginSuccess(token, user)
+                        }
+                )
         mCompositeDisposable.add(disposable)
     }
 
