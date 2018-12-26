@@ -1,7 +1,7 @@
 package com.bstcine.h5.ui.login
 
-import com.bstcine.h5.BasePresenter
-import com.bstcine.h5.BaseView
+import com.bstcine.h5.base.BasePresenter
+import com.bstcine.h5.base.BaseView
 
 interface LoginContract {
 

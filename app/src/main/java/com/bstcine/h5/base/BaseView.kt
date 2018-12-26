@@ -1,4 +1,4 @@
-package com.bstcine.h5
+package com.bstcine.h5.base
 
 interface BaseView<T> {
 
