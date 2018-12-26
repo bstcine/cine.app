@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.bstcine.h5.ui.home.MainActivity"
+            android:name="com.bstcine.h5.ui.MainActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -29,14 +29,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bstcine.h5.ui.WebActivity"
+            android:name="com.bstcine.h5.base.BaseWebActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.bstcine.h5.ui.login.LoginActivity"
             android:label="@string/activity_login"
             android:screenOrientation="portrait" />
-        <activity android:name="com.bstcine.h5.ui.BlankActivity" />
+        <activity android:name="com.bstcine.h5.ui.MsgActivity" />
     </application>
 
 </manifest>

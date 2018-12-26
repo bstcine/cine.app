@@ -4,9 +4,9 @@ object CineConfig {
 
     const val BASE_URL: String = "https://dev.bstcine.com"
 
-    const val LEARN_URL: String = "https://dev.bstcine.com/learn"
-    const val STORE_URL: String = "https://dev.bstcine.com"
-    const val MINE_URL: String = "https://dev.bstcine.com/user"
-    const val CSUB_URL: String = "https://dev.bstcine.com/widget/csub"
+    const val H5_URL_STORE: String = "https://dev.bstcine.com"
+    const val H5_URL_LEARN: String = "https://dev.bstcine.com/learn"
+    const val H5_URL_MINE: String = "https://dev.bstcine.com/user"
+    const val H5_URL_CSUB: String = "https://dev.bstcine.com/widget/csub"
 
 }

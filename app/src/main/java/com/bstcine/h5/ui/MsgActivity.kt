@@ -1,24 +1,21 @@
 package com.bstcine.h5.ui
 
-import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import com.bstcine.h5.R
 
-class WebActivity : AppCompatActivity() {
+class MsgActivity : AppCompatActivity() {
 
-    @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_web)
+        setContentView(R.layout.activity_msg)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val url = intent.getStringExtra("url")
-        supportFragmentManager.beginTransaction()
-                .add(R.id.fragContainer, WebFragment.newInstance(url))
-                .commit()
+        val msg: TextView = findViewById(R.id.msg)
+        msg.text = intent?.extras?.getString("arg0")
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

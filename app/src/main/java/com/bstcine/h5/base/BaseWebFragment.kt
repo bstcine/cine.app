@@ -1,4 +1,4 @@
-package com.bstcine.h5.ui
+package com.bstcine.h5.base
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,14 +11,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.JavascriptInterface
-import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineJSInterface
 import com.bstcine.h5.R
-import com.bstcine.h5.data.JsModel
 import com.bstcine.h5.widget.CWebView
-import com.google.gson.Gson
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
 import com.tencent.smtt.export.external.interfaces.JsResult
 import com.tencent.smtt.sdk.WebViewClient
@@ -29,17 +25,16 @@ import com.tencent.smtt.sdk.WebView
 
 private const val ARG_HREF = "param_url"
 
-class WebFragment : Fragment() {
+open class BaseWebFragment : Fragment() {
 
     private var mHref: String? = null
-
     private var mRefresh: SwipeRefreshLayout? = null
     private var mWebView: CWebView? = null
 
     companion object {
         @JvmStatic
         fun newInstance(href: String) =
-                WebFragment().apply {
+                BaseWebFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_HREF, href)
                     }
@@ -59,17 +54,32 @@ class WebFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_web, container, false)
 
         mRefresh = view.findViewById(R.id.refresh)
-        mWebView = CWebView(context!!.applicationContext)
+        mWebView = CWebView(context!!)
 
-        mRefresh!!.addView(mWebView)
+        initWebView(mWebView, mRefresh)
+        addJavascriptInterface(mWebView)
+        loadUrl(mWebView)
 
-        mRefresh!!.setOnRefreshListener { mWebView?.reload() }
-        mWebView!!.webViewClient = object : WebViewClient() {
+        return view
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mWebView?.destroy()
+        mWebView = null
+    }
+
+    open fun initWebView(wv: CWebView?, refresh: SwipeRefreshLayout?) {
+        refresh?.addView(wv)
+        refresh?.setOnRefreshListener { wv?.reload() }
+
+        wv?.webViewClient = object : WebViewClient() {
 
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 if (!url!!.contains("bstcine.com")) return true
 
-                val intent = Intent(activity, WebActivity::class.java)
+                val intent = Intent(activity, BaseWebActivity::class.java)
                 intent.putExtra("url", url)
                 startActivity(intent)
                 return true
@@ -79,7 +89,7 @@ class WebFragment : Fragment() {
                 p1!!.proceed()
             }
         }
-        mWebView!!.webChromeClient = object : WebChromeClient() {
+        wv?.webChromeClient = object : WebChromeClient() {
 
             private var mParent: ViewGroup? = null
 
@@ -118,7 +128,7 @@ class WebFragment : Fragment() {
             override fun onShowCustomView(view: View?, customViewCallback: IX5WebChromeClient.CustomViewCallback?) {
                 super.onShowCustomView(view, customViewCallback)
 
-                mParent = mWebView!!.parent.parent as ViewGroup
+                mParent = wv!!.parent.parent as ViewGroup
                 (activity as AppCompatActivity).supportActionBar?.hide()
 
                 view?.setBackgroundColor(Color.parseColor("#ffffff"))
@@ -139,37 +149,21 @@ class WebFragment : Fragment() {
             }
 
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                mRefresh?.isRefreshing = newProgress != 100
+                refresh?.isRefreshing = newProgress != 100
                 super.onProgressChanged(view, newProgress)
             }
         }
-        mWebView!!.addJavascriptInterface(object : CineJSInterface(mWebView!!) {
-            @JavascriptInterface
-            override fun openLessonPlayWindow(arg0: String) {
-                val rs = Gson().fromJson(arg0, JsModel::class.java)
-                activity?.runOnUiThread {
-                    mWebView?.emitJs(rs.callback, rs.data)
-
-                    val bundle = Bundle()
-                    bundle.putString("arg0", arg0)
-                    ActivityUtils.startActivity(bundle, BlankActivity::class.java)
-                }
-            }
-        }, "Android")
-
-        mWebView!!.loadUrl(bindUrl(this.mHref!!))
-
-        return view
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        mWebView?.destroy()
-        mWebView = null
+    open fun addJavascriptInterface(wv: CWebView?) {
+        wv?.addJavascriptInterface(CineJSInterface(wv), "Android")
     }
 
-    private fun bindUrl(url: String): String {
+    open fun loadUrl(wv: CWebView?) {
+        wv?.loadUrl(handleUrl(mHref!!))
+    }
+
+    fun handleUrl(url: String): String {
         var tempUrl = if (url.contains("?")) {
             "$url&sitecode=cine.web.android.kotlin"
         } else {

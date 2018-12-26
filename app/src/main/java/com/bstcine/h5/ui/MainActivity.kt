@@ -1,4 +1,4 @@
-package com.bstcine.h5.ui.home
+package com.bstcine.h5.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -12,7 +12,8 @@ import com.blankj.utilcode.util.ToastUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
-import com.bstcine.h5.ui.WebFragment
+import com.bstcine.h5.base.BaseWebFragment
+import com.bstcine.h5.ui.csub.CSubFragment
 import com.bstcine.h5.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
@@ -30,8 +31,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            if (mCurrentPrimaryItem is WebFragment) {
-                (mCurrentPrimaryItem as WebFragment).emitJs("android_call_h5_test", "joe")
+            if (mCurrentPrimaryItem is BaseWebFragment) {
+                (mCurrentPrimaryItem as BaseWebFragment).emitJs("android_call_h5_test", "joe")
             }
         }
 
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 mCurTransaction.hide(mCurrentPrimaryItem!!)
             }
 
-            mCurTransaction.commitNowAllowingStateLoss()
+            mCurTransaction.commitAllowingStateLoss()
 
             mNextItemId = null
             mCurrentPrimaryItem = fragment
@@ -95,10 +96,10 @@ class MainActivity : AppCompatActivity() {
     private fun getItem(itemId: Int): Fragment? {
         var selectedFragment: Fragment? = null
         when (itemId) {
-            R.id.action_learn -> selectedFragment = WebFragment.newInstance(CineConfig.LEARN_URL)
-            R.id.action_store -> selectedFragment = WebFragment.newInstance(CineConfig.STORE_URL)
-            R.id.action_mine -> selectedFragment = WebFragment.newInstance(CineConfig.MINE_URL)
-            R.id.action_csub -> selectedFragment = WebFragment.newInstance(CineConfig.CSUB_URL)
+            R.id.action_learn -> selectedFragment = BaseWebFragment.newInstance(CineConfig.H5_URL_LEARN)
+            R.id.action_store -> selectedFragment = BaseWebFragment.newInstance(CineConfig.H5_URL_STORE)
+            R.id.action_mine -> selectedFragment = BaseWebFragment.newInstance(CineConfig.H5_URL_MINE)
+            R.id.action_csub -> selectedFragment = CSubFragment()
         }
         return selectedFragment
     }
