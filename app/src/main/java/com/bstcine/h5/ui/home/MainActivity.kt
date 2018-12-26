@@ -17,8 +17,6 @@ import com.bstcine.h5.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
-    val LOGIN_REQUEST = 10001
-
     private lateinit var navigation: BottomNavigationView
 
     private var mCurrentPrimaryItem: Fragment? = null
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             if (mCurrentPrimaryItem is WebFragment) {
-                (mCurrentPrimaryItem as WebFragment).emitJavascript("android_call_h5_test", "joe")
+                (mCurrentPrimaryItem as WebFragment).emitJs("android_call_h5_test", "joe")
             }
         }
 
@@ -48,9 +46,9 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
             val itemId = item.itemId
 
-            if ((itemId == R.id.action_learn || itemId == R.id.action_mine || itemId == R.id.action_csub) && !CineApplication.INSTANCE.isLogin()) {
+            if ((itemId == R.id.action_learn || itemId == R.id.action_mine) && !CineApplication.INSTANCE.isLogin()) {
                 mNextItemId = itemId
-                ActivityUtils.startActivityForResult(this@MainActivity, LoginActivity::class.java, LOGIN_REQUEST)
+                ActivityUtils.startActivityForResult(this@MainActivity, LoginActivity::class.java, REQUEST_LOGIN)
                 return@OnNavigationItemSelectedListener false
             }
 
@@ -85,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == LOGIN_REQUEST && resultCode == 1) {
+        if (requestCode == REQUEST_LOGIN && resultCode == 1) {
             reloadFragment()
         }
     }
@@ -114,5 +112,9 @@ class MainActivity : AppCompatActivity() {
         mCurTransaction.commitNowAllowingStateLoss()
         mCurrentPrimaryItem = null
         navigation.selectedItemId = mNextItemId ?: R.id.action_store
+    }
+
+    companion object {
+        private const val REQUEST_LOGIN = 10001
     }
 }

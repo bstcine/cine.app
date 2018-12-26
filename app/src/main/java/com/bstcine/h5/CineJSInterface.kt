@@ -2,12 +2,12 @@ package com.bstcine.h5
 
 import android.webkit.JavascriptInterface
 import com.blankj.utilcode.util.ActivityUtils
-import com.bstcine.h5.ui.BlankActivity
 import com.bstcine.h5.ui.login.LoginActivity
-import android.os.Bundle
+import com.bstcine.h5.widget.CWebView
 
+open class CineJSInterface(mWebView: CWebView) {
 
-open class CineJsNative {
+    /* ----------------- common ----------------- */
 
     @JavascriptInterface
     fun login(arg0: String) {
@@ -19,10 +19,9 @@ open class CineJsNative {
         CineApplication.INSTANCE.logout()
     }
 
+    /* ----------------- common ----------------- */
+
     @JavascriptInterface
-    fun openLessonPlayWindow(arg0: String) {
-        val bundle = Bundle()
-        bundle.putString("arg0", arg0)
-        ActivityUtils.startActivity(bundle, BlankActivity::class.java)
+    open fun openLessonPlayWindow(arg0: String) {
     }
 }

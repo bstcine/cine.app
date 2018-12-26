@@ -15,6 +15,7 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 
 import com.bstcine.h5.R
+import com.google.gson.Gson
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
 import com.tencent.smtt.export.external.interfaces.JsResult
 import com.tencent.smtt.sdk.*
@@ -55,6 +56,14 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
 
         // 设置允许加载混合内容
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) webSetting.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+    }
+
+    fun emitJs(name: String?, arg: Any?) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            evaluateJavascript("window._cine_listener.emit('$name',${Gson().toJson(arg)})", null)
+        } else {
+            loadUrl("javascript:window._cine_listener.emit('$name',${Gson().toJson(arg)})")
+        }
     }
 
     override fun destroy() {

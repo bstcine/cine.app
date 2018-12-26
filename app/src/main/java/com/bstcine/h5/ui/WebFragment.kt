@@ -11,9 +11,11 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.JavascriptInterface
 import com.bstcine.h5.CineApplication
-import com.bstcine.h5.CineJsNative
+import com.bstcine.h5.CineJSInterface
 import com.bstcine.h5.R
+import com.bstcine.h5.data.JsModel
 import com.bstcine.h5.widget.CWebView
 import com.google.gson.Gson
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
@@ -140,7 +142,15 @@ class WebFragment : Fragment() {
                 super.onProgressChanged(view, newProgress)
             }
         }
-        mWebView!!.addJavascriptInterface(CineJsNative(), "Android")
+        mWebView!!.addJavascriptInterface(object : CineJSInterface(mWebView!!) {
+            @JavascriptInterface
+            override fun openLessonPlayWindow(arg0: String) {
+                val rs = Gson().fromJson(arg0, JsModel::class.java)
+                activity?.runOnUiThread {
+                    mWebView?.emitJs(rs.callback, rs.data)
+                }
+            }
+        }, "Android")
 
         mWebView!!.loadUrl(bindUrl(this.mHref!!))
 
@@ -166,12 +176,8 @@ class WebFragment : Fragment() {
         return tempUrl
     }
 
-    fun emitJavascript(name: String, arg: Any) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            mWebView?.evaluateJavascript("window._cine_listener.emit('$name',${Gson().toJson(arg)})", null)
-        } else {
-            mWebView?.loadUrl("javascript:window._cine_listener.emit('$name',${Gson().toJson(arg)})")
-        }
+    fun emitJs(name: String, arg: Any) {
+        mWebView?.emitJs(name, arg)
     }
 
 }
