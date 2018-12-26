@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
+import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineJSInterface
 import com.bstcine.h5.R
@@ -148,6 +149,10 @@ class WebFragment : Fragment() {
                 val rs = Gson().fromJson(arg0, JsModel::class.java)
                 activity?.runOnUiThread {
                     mWebView?.emitJs(rs.callback, rs.data)
+
+                    val bundle = Bundle()
+                    bundle.putString("arg0", arg0)
+                    ActivityUtils.startActivity(bundle, BlankActivity::class.java)
                 }
             }
         }, "Android")
