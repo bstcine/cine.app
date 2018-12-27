@@ -44,7 +44,7 @@ class CWebView @JvmOverloads constructor(private val mContext: Context, attrs: A
         webSetting.setSupportMultipleWindows(true)
         // webSetting.setLoadWithOverviewMode(true);
         webSetting.setAppCacheEnabled(true)
-        webSetting.setAppCachePath(mContext.applicationContext.getDir("cache", Context.MODE_PRIVATE).getPath());
+        webSetting.setAppCachePath(mContext.applicationContext.getDir("cache", Context.MODE_PRIVATE).path);
         // webSetting.setDatabaseEnabled(true);
         webSetting.domStorageEnabled = true
         webSetting.setGeolocationEnabled(true)
