@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
+import com.bstcine.h5.base.BaseWebActivity
 import com.bstcine.h5.base.BaseWebFragment
 import com.bstcine.h5.ui.csub.CSubFragment
 import com.bstcine.h5.ui.login.LoginActivity
@@ -31,8 +32,12 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            if (mCurrentPrimaryItem is BaseWebFragment) {
-                (mCurrentPrimaryItem as BaseWebFragment).emitJs("android_call_h5_test", "joe")
+            if (mCurrentPrimaryItem is CSubFragment) {
+                (mCurrentPrimaryItem as CSubFragment).emitJs("android_call_h5_test", "joe")
+            } else {
+                val intent = Intent(this@MainActivity, BaseWebActivity::class.java)
+                intent.putExtra("url", CineConfig.H5_URL_STORE)
+                startActivity(intent)
             }
         }
 
@@ -62,17 +67,20 @@ class MainActivity : AppCompatActivity() {
                 mCurTransaction.show(fragment)
             } else {
                 fragment = getItem(itemId)
-                mCurTransaction.add(R.id.container, fragment!!, name)
+                mCurTransaction.add(R.id.container, fragment!!, name).show(fragment)
             }
 
             if (mCurrentPrimaryItem != null && fragment !== mCurrentPrimaryItem) {
                 mCurTransaction.hide(mCurrentPrimaryItem!!)
             }
 
-            mCurTransaction.commitAllowingStateLoss()
+            mCurTransaction.commitNowAllowingStateLoss()
 
             mNextItemId = null
             mCurrentPrimaryItem = fragment
+
+            preInitFragment()
+
             true
         })
         navigation.selectedItemId = R.id.action_store
@@ -89,6 +97,61 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 预加载
+     */
+    private fun preInitFragment() {
+        val mFragmentManager = supportFragmentManager
+        val mCurTransaction = mFragmentManager.beginTransaction()
+
+        var name = makeFragmentName(R.id.action_store)
+        var fragment = mFragmentManager.findFragmentByTag(name)
+        if (fragment == null) {
+            fragment = getItem(R.id.action_store)
+            mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
+        }
+
+        name = makeFragmentName(R.id.action_csub)
+        fragment = mFragmentManager.findFragmentByTag(name)
+        if (fragment == null) {
+            fragment = getItem(R.id.action_csub)
+            mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
+        }
+
+        if (CineApplication.INSTANCE.isLogin()) {
+            name = makeFragmentName(R.id.action_learn)
+            fragment = mFragmentManager.findFragmentByTag(name)
+            if (fragment == null) {
+                fragment = getItem(R.id.action_learn)
+                mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
+            }
+
+            name = makeFragmentName(R.id.action_mine)
+            fragment = mFragmentManager.findFragmentByTag(name)
+            if (fragment == null) {
+                fragment = getItem(R.id.action_mine)
+                mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
+            }
+        }
+
+        mCurTransaction.commitNowAllowingStateLoss()
+    }
+
+    /**
+     * 重新加载
+     */
+    private fun reloadFragment() {
+        val mFragmentManager = supportFragmentManager
+        val mCurTransaction = mFragmentManager.beginTransaction()
+        for (fragment in mFragmentManager.fragments) {
+            mCurTransaction.remove(fragment)
+        }
+        mCurTransaction.commitNowAllowingStateLoss()
+
+        mCurrentPrimaryItem = null
+        navigation.selectedItemId = mNextItemId ?: R.id.action_store
+    }
+
     private fun makeFragmentName(id: Int): String {
         return "android:switcher:" + R.id.container + ":" + id
     }
@@ -102,17 +165,6 @@ class MainActivity : AppCompatActivity() {
             R.id.action_csub -> selectedFragment = CSubFragment()
         }
         return selectedFragment
-    }
-
-    private fun reloadFragment() {
-        val mFragmentManager = supportFragmentManager
-        val mCurTransaction = mFragmentManager.beginTransaction()
-        for (fragment in mFragmentManager.fragments) {
-            mCurTransaction.remove(fragment)
-        }
-        mCurTransaction.commitNowAllowingStateLoss()
-        mCurrentPrimaryItem = null
-        navigation.selectedItemId = mNextItemId ?: R.id.action_store
     }
 
     companion object {
