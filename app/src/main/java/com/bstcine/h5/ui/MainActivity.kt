@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 (mCurrentPrimaryItem as CSubFragment).emitJs("android_call_h5_test", "joe")
             } else {
                 val intent = Intent(this@MainActivity, BaseWebActivity::class.java)
-                intent.putExtra("url", CineConfig.H5_URL_STORE)
+                intent.putExtra("url", "http://soft.imtt.qq.com/browser/tes/feedback.html")
                 startActivity(intent)
             }
         }
@@ -104,21 +104,14 @@ class MainActivity : AppCompatActivity() {
         val mFragmentManager = supportFragmentManager
         val mCurTransaction = mFragmentManager.beginTransaction()
 
-        var name = makeFragmentName(R.id.action_store)
+        val name = makeFragmentName(R.id.action_csub)
         var fragment = mFragmentManager.findFragmentByTag(name)
-        if (fragment == null) {
-            fragment = getItem(R.id.action_store)
-            mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
-        }
-
-        name = makeFragmentName(R.id.action_csub)
-        fragment = mFragmentManager.findFragmentByTag(name)
         if (fragment == null) {
             fragment = getItem(R.id.action_csub)
             mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
         }
 
-        if (CineApplication.INSTANCE.isLogin()) {
+        /*if (CineApplication.INSTANCE.isLogin()) {
             name = makeFragmentName(R.id.action_learn)
             fragment = mFragmentManager.findFragmentByTag(name)
             if (fragment == null) {
@@ -132,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                 fragment = getItem(R.id.action_mine)
                 mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
             }
-        }
+        }*/
 
         mCurTransaction.commitNowAllowingStateLoss()
     }

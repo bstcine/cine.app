@@ -8,28 +8,30 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineJSInterface
 import com.bstcine.h5.R
-import com.bstcine.h5.widget.CWebView
+import com.bstcine.h5.widget.X5WebView
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
 import com.tencent.smtt.export.external.interfaces.JsResult
-import com.tencent.smtt.sdk.WebViewClient
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler
 import com.tencent.smtt.export.external.interfaces.SslError
-import com.tencent.smtt.sdk.WebChromeClient
-import com.tencent.smtt.sdk.WebView
+import com.tencent.smtt.sdk.*
 
 private const val ARG_HREF = "param_url"
 
 open class BaseWebFragment : Fragment() {
 
     private var mHref: String? = null
+
+    private var mViewParent: FrameLayout? = null
     private var mRefresh: SwipeRefreshLayout? = null
-    private var mWebView: CWebView? = null
+    private var mWebView: X5WebView? = null
 
     companion object {
         @JvmStatic
@@ -54,9 +56,10 @@ open class BaseWebFragment : Fragment() {
         val view = inflater.inflate(R.layout.base_fragment_web, container, false)
 
         mRefresh = view.findViewById(R.id.refresh)
-        mWebView = CWebView(context!!)
+        mViewParent = view.findViewById(R.id.webView)
+        mWebView = X5WebView(CineApplication.INSTANCE)
 
-        initWebView(mWebView, mRefresh)
+        init(mRefresh, mViewParent, mWebView)
         addJavascriptInterface(mWebView)
         loadUrl(mWebView)
 
@@ -70,11 +73,45 @@ open class BaseWebFragment : Fragment() {
         mWebView = null
     }
 
-    open fun initWebView(wv: CWebView?, refresh: SwipeRefreshLayout?) {
-        refresh?.addView(wv)
-        refresh?.setOnRefreshListener { wv?.reload() }
+    @SuppressLint("SetJavaScriptEnabled")
+    open fun init(refresh: SwipeRefreshLayout?, parent: FrameLayout?, webView: X5WebView?) {
+        refresh?.setOnRefreshListener { webView?.reload() }
 
-        wv?.webViewClient = object : WebViewClient() {
+        parent!!.addView(webView, FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT))
+
+        webView!!.setOnScrollChangedCallback(object : X5WebView.OnScrollChangedCallback {
+            override fun onScroll(l: Int, t: Int) {
+                refresh?.isEnabled = t == 0
+            }
+        })
+
+        val webSetting = webView!!.settings
+        webSetting.allowFileAccess = true
+        webSetting.layoutAlgorithm = WebSettings.LayoutAlgorithm.NARROW_COLUMNS
+        webSetting.setSupportZoom(true)
+        webSetting.builtInZoomControls = true
+        webSetting.useWideViewPort = true
+        webSetting.setSupportMultipleWindows(false)
+        // webSetting.setLoadWithOverviewMode(true);
+        webSetting.setAppCacheEnabled(true)
+        // webSetting.setDatabaseEnabled(true);
+        webSetting.domStorageEnabled = true
+        webSetting.javaScriptEnabled = true
+        webSetting.setGeolocationEnabled(true)
+        webSetting.setAppCacheMaxSize(java.lang.Long.MAX_VALUE)
+        webSetting.setAppCachePath(context!!.getDir("appcache", 0).path)
+        webSetting.databasePath = context!!.getDir("databases", 0).path
+        webSetting.setGeolocationDatabasePath(context!!.getDir("geolocation", 0)
+                .path)
+        // webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
+        webSetting.pluginState = WebSettings.PluginState.ON_DEMAND
+        // webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        // webSetting.setPreFectch(true);
+        webSetting.cacheMode = WebSettings.LOAD_DEFAULT
+
+        webView.webViewClient = object : WebViewClient() {
 
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 if (!url!!.contains("bstcine.com")) return true
@@ -89,9 +126,8 @@ open class BaseWebFragment : Fragment() {
                 p1!!.proceed()
             }
         }
-        wv?.webChromeClient = object : WebChromeClient() {
 
-            private var mParent: ViewGroup? = null
+        webView.webChromeClient = object : WebChromeClient() {
 
             private var mCustomView: View? = null
 
@@ -99,7 +135,7 @@ open class BaseWebFragment : Fragment() {
                 val b = AlertDialog.Builder(context!!)
                 b.setTitle("提示")
                 b.setMessage(s1)
-                b.setPositiveButton(android.R.string.ok) { dialog, which ->
+                b.setPositiveButton(android.R.string.ok) { dialog, _ ->
                     jsResult!!.confirm()
                     dialog.dismiss()
                 }
@@ -112,11 +148,11 @@ open class BaseWebFragment : Fragment() {
                 val b = AlertDialog.Builder(context!!)
                 b.setTitle("提示")
                 b.setMessage(s1)
-                b.setPositiveButton(android.R.string.ok) { dialog, which ->
+                b.setPositiveButton(android.R.string.ok) { dialog, _ ->
                     jsResult!!.confirm()
                     dialog.dismiss()
                 }
-                b.setNegativeButton(android.R.string.cancel) { dialog, which ->
+                b.setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     jsResult!!.cancel()
                     dialog.dismiss()
                 }
@@ -128,11 +164,10 @@ open class BaseWebFragment : Fragment() {
             override fun onShowCustomView(view: View?, customViewCallback: IX5WebChromeClient.CustomViewCallback?) {
                 super.onShowCustomView(view, customViewCallback)
 
-                mParent = wv!!.parent.parent as ViewGroup
                 (activity as AppCompatActivity).supportActionBar?.hide()
 
                 view?.setBackgroundColor(Color.parseColor("#ffffff"))
-                mParent?.addView(view)
+                parent.addView(view)
 
                 mCustomView = view
             }
@@ -143,7 +178,7 @@ open class BaseWebFragment : Fragment() {
                 (activity as AppCompatActivity).supportActionBar?.show()
 
                 if (mCustomView != null) {
-                    mParent?.removeView(mCustomView)
+                    parent.removeView(mCustomView)
                     mCustomView = null
                 }
             }
@@ -155,12 +190,14 @@ open class BaseWebFragment : Fragment() {
         }
     }
 
-    open fun addJavascriptInterface(wv: CWebView?) {
-        wv?.addJavascriptInterface(CineJSInterface(wv), "Android")
+    open fun addJavascriptInterface(webView: X5WebView?) {
+        webView?.addJavascriptInterface(CineJSInterface(webView), "Android")
     }
 
-    open fun loadUrl(wv: CWebView?) {
-        wv?.loadUrl(handleUrl(mHref!!))
+    open fun loadUrl(webView: X5WebView?) {
+        val time = System.currentTimeMillis()
+        webView?.loadUrl(handleUrl(mHref!!))
+        Log.d("main", "cost time: ${System.currentTimeMillis() - time}")
     }
 
     fun handleUrl(url: String): String {
