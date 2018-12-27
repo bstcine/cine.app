@@ -22,8 +22,9 @@ class CSubFragment : BaseWebFragment() {
     override fun init(refresh: SwipeRefreshLayout?, parent: FrameLayout?, webView: X5WebView?) {
         super.init(refresh, parent, webView)
 
+        //当用户刷新 csub 页面时，调用 H5 的 reload 更新
         refresh?.setOnRefreshListener {
-            webView?.emitJs("reload", null)
+            webView?.emitJs("reload", true)
             Observable.timer(2, TimeUnit.SECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeBy(onNext = {

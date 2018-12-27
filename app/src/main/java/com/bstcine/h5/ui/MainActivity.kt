@@ -65,6 +65,9 @@ class MainActivity : AppCompatActivity() {
             var fragment = mFragmentManager.findFragmentByTag(name)
             if (fragment != null) {
                 mCurTransaction.show(fragment)
+
+                //当用户点击 csub 页面时，调用 H5 的 reload 更新
+                if (itemId == R.id.action_csub) (fragment as CSubFragment).emitJs("reload", false)
             } else {
                 fragment = getItem(itemId)
                 mCurTransaction.add(R.id.container, fragment!!, name).show(fragment)
