@@ -23,30 +23,18 @@ import com.tencent.smtt.export.external.interfaces.SslErrorHandler
 import com.tencent.smtt.export.external.interfaces.SslError
 import com.tencent.smtt.sdk.*
 
-private const val ARG_HREF = "param_url"
-
 open class BaseWebFragment : Fragment() {
 
-    private var mHref: String? = null
+    private var mUrl: String? = null
 
     private var mViewParent: FrameLayout? = null
     private var mRefresh: SwipeRefreshLayout? = null
     private var mWebView: X5WebView? = null
 
-    companion object {
-        @JvmStatic
-        fun newInstance(href: String) =
-                BaseWebFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_HREF, href)
-                    }
-                }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            mHref = it.getString(ARG_HREF)
+            mUrl = it.getString(KEY_WEB_URL)
         }
     }
 
@@ -196,7 +184,7 @@ open class BaseWebFragment : Fragment() {
 
     open fun loadUrl(webView: X5WebView?) {
         val time = System.currentTimeMillis()
-        webView?.loadUrl(handleUrl(mHref!!))
+        webView?.loadUrl(handleUrl(mUrl!!))
         Log.d("main", "cost time: ${System.currentTimeMillis() - time}")
     }
 
@@ -216,4 +204,15 @@ open class BaseWebFragment : Fragment() {
         mWebView?.emitJs(name, arg)
     }
 
+    companion object {
+        private const val KEY_WEB_URL = "web_url"
+
+        @JvmStatic
+        fun forUrl(url: String) =
+                BaseWebFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(KEY_WEB_URL, url)
+                    }
+                }
+    }
 }

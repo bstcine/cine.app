@@ -61,16 +61,15 @@ class MainActivity : AppCompatActivity() {
             val mFragmentManager = supportFragmentManager
             val mCurTransaction = mFragmentManager.beginTransaction()
 
-            val name = makeFragmentName(itemId)
-            var fragment = mFragmentManager.findFragmentByTag(name)
+            var fragment = mFragmentManager.findFragmentByTag(itemId.toString())
             if (fragment != null) {
                 mCurTransaction.show(fragment)
 
                 //当用户点击 csub 页面时，调用 H5 的 reload 更新
                 if (itemId == R.id.action_csub) (fragment as CSubFragment).emitJs("reload", false)
             } else {
-                fragment = getItem(itemId)
-                mCurTransaction.add(R.id.container, fragment!!, name).show(fragment)
+                fragment = getFragmentByItemId(itemId)
+                mCurTransaction.add(R.id.container, fragment!!, itemId.toString()).show(fragment)
             }
 
             if (mCurrentPrimaryItem != null && fragment !== mCurrentPrimaryItem) {
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             mNextItemId = null
             mCurrentPrimaryItem = fragment
 
-            preInitFragment()
+            preloadFragment()
 
             true
         })
@@ -103,32 +102,15 @@ class MainActivity : AppCompatActivity() {
     /**
      * 预加载
      */
-    private fun preInitFragment() {
+    private fun preloadFragment() {
         val mFragmentManager = supportFragmentManager
         val mCurTransaction = mFragmentManager.beginTransaction()
 
-        val name = makeFragmentName(R.id.action_csub)
-        var fragment = mFragmentManager.findFragmentByTag(name)
+        var fragment = mFragmentManager.findFragmentByTag(R.id.action_csub.toString())
         if (fragment == null) {
-            fragment = getItem(R.id.action_csub)
-            mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
+            fragment = getFragmentByItemId(R.id.action_csub)
+            mCurTransaction.add(R.id.container, fragment!!, R.id.action_csub.toString()).hide(fragment)
         }
-
-        /*if (CineApplication.INSTANCE.isLogin()) {
-            name = makeFragmentName(R.id.action_learn)
-            fragment = mFragmentManager.findFragmentByTag(name)
-            if (fragment == null) {
-                fragment = getItem(R.id.action_learn)
-                mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
-            }
-
-            name = makeFragmentName(R.id.action_mine)
-            fragment = mFragmentManager.findFragmentByTag(name)
-            if (fragment == null) {
-                fragment = getItem(R.id.action_mine)
-                mCurTransaction.add(R.id.container, fragment!!, name).hide(fragment)
-            }
-        }*/
 
         mCurTransaction.commitNowAllowingStateLoss()
     }
@@ -148,19 +130,9 @@ class MainActivity : AppCompatActivity() {
         navigation.selectedItemId = mNextItemId ?: R.id.action_store
     }
 
-    private fun makeFragmentName(id: Int): String {
-        return "android:switcher:" + R.id.container + ":" + id
-    }
-
-    private fun getItem(itemId: Int): Fragment? {
-        var selectedFragment: Fragment? = null
-        when (itemId) {
-            R.id.action_learn -> selectedFragment = BaseWebFragment.newInstance(CineConfig.H5_URL_LEARN)
-            R.id.action_store -> selectedFragment = BaseWebFragment.newInstance(CineConfig.H5_URL_STORE)
-            R.id.action_mine -> selectedFragment = BaseWebFragment.newInstance(CineConfig.H5_URL_MINE)
-            R.id.action_csub -> selectedFragment = CSubFragment()
-        }
-        return selectedFragment
+    private fun getFragmentByItemId(itemId: Int): Fragment? {
+        val tabConfig = hashMapOf(R.id.action_store to CineConfig.H5_URL_STORE, R.id.action_mine to CineConfig.H5_URL_MINE, R.id.action_learn to CineConfig.H5_URL_LEARN)
+        return if (itemId == R.id.action_csub) CSubFragment() else if (tabConfig[itemId] == null) null else BaseWebFragment.forUrl(tabConfig[itemId].toString())
     }
 
     companion object {

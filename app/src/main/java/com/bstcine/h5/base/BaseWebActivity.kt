@@ -17,7 +17,7 @@ class BaseWebActivity : AppCompatActivity() {
 
         val url = intent.getStringExtra("url")
         supportFragmentManager.beginTransaction()
-                .add(R.id.fragContainer, BaseWebFragment.newInstance(url))
+                .add(R.id.fragContainer, BaseWebFragment.forUrl(url))
                 .commit()
     }
 
