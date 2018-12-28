@@ -12,18 +12,20 @@ class CineApp : Application() {
         var INSTANCE: CineApp by Delegates.notNull()
     }
 
-    private var login = false
+    private var mIsLogin = false
 
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
 
-        this.login = token() != null
-
         init()
     }
 
-    fun init(){
+    private fun init(){
+        //获取登录状态
+        this.mIsLogin = token() != null
+
+        //加载腾讯 X5 内核
         QbSdk.initX5Environment(applicationContext, object : QbSdk.PreInitCallback {
 
             override fun onViewInitFinished(arg0: Boolean) {
@@ -37,17 +39,17 @@ class CineApp : Application() {
     }
 
     fun isLogin(): Boolean {
-        return this.login
+        return this.mIsLogin
     }
 
     fun login(token: String) {
         SPUtils.getInstance("auth").put("token", token)
-        this.login = true
+        this.mIsLogin = true
     }
 
     fun logout() {
         SPUtils.getInstance("auth").remove("token")
-        this.login = false
+        this.mIsLogin = false
     }
 
     fun token(): String? {

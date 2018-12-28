@@ -1,7 +1,7 @@
 package com.bstcine.h5
 
 import android.text.TextUtils
-import com.bstcine.h5.api.CineService
+import com.bstcine.h5.api.APIService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.*
@@ -12,18 +12,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
-
-class CineRepository {
+class CineDataRepository {
 
     private object Holder {
-        val INSTANCE = CineRepository()
+        val INSTANCE = CineDataRepository()
     }
 
     companion object {
-        val instance: CineRepository by lazy { Holder.INSTANCE }
+        val INSTANCE: CineDataRepository by lazy { Holder.INSTANCE }
     }
 
-    var mRemoteDataSource: CineService
+    var mAPIService: APIService
 
     init {
         val httpClient = OkHttpClient.Builder()
@@ -77,6 +76,7 @@ class CineRepository {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(httpClient.build())
                 .build()
-        mRemoteDataSource = retrofit.create(CineService::class.java)
+
+        mAPIService = retrofit.create(APIService::class.java)
     }
 }

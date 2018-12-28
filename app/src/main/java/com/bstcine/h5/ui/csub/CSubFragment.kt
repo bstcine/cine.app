@@ -6,7 +6,7 @@ import android.webkit.JavascriptInterface
 import android.widget.FrameLayout
 import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.CineConfig
-import com.bstcine.h5.CineJSInterface
+import com.bstcine.h5.CineJSInvokeNative
 import com.bstcine.h5.model.JsModel
 import com.bstcine.h5.ui.MsgActivity
 import com.bstcine.h5.ui.h5.H5Fragment
@@ -34,7 +34,7 @@ class CSubFragment : H5Fragment() {
     }
 
     override fun addJavascriptInterface(webView: X5WebView?) {
-        webView?.addJavascriptInterface(object : CineJSInterface() {
+        webView?.addJavascriptInterface(object : CineJSInvokeNative() {
             @JavascriptInterface
             override fun openLessonPlayWindow(arg0: String) {
                 val rs = Gson().fromJson(arg0, JsModel::class.java)

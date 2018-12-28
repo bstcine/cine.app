@@ -25,7 +25,7 @@ class X5WebView : WebView {
     constructor(arg0: Context, arg1: AttributeSet) : super(arg0, arg1) {
         this.webViewClient = client
         // this.setWebChromeClient(chromeClient);
-        // WebStorage webStorage = WebStorage.getInstance();
+        // WebStorage webStorage = WebStorage.getINSTANCE();
         initWebViewSettings()
         this.view.isClickable = true
     }

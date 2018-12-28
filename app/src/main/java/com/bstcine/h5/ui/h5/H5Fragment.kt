@@ -15,7 +15,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.CineApp
-import com.bstcine.h5.CineJSInterface
+import com.bstcine.h5.CineJSInvokeNative
 import com.bstcine.h5.R
 import com.bstcine.h5.widget.X5WebView
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
@@ -191,7 +191,7 @@ open class H5Fragment : Fragment() {
     }
 
     open fun addJavascriptInterface(webView: X5WebView?) {
-        webView?.addJavascriptInterface(CineJSInterface(), "Android")
+        webView?.addJavascriptInterface(CineJSInvokeNative(), "Android")
     }
 
     open fun loadUrl(webView: X5WebView?) {

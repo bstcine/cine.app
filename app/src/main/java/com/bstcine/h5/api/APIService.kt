@@ -8,7 +8,7 @@ import retrofit2.http.POST
 /**
  * REST API access points
  */
-interface CineService {
+interface APIService {
 
     @POST("api/auth/signin")
     fun login(@Body data: Any): Flowable<ResModel<Any>>

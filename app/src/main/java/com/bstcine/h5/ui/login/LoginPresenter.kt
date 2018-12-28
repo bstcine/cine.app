@@ -1,7 +1,7 @@
 package com.bstcine.h5.ui.login
 
 import com.bstcine.h5.CineApp
-import com.bstcine.h5.CineRepository
+import com.bstcine.h5.CineDataRepository
 import com.bstcine.h5.utils.NetUtil
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -54,7 +54,7 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
     }
 
     private fun loginRetrofit(data: Map<String, Any>) {
-        val disposable = CineRepository.instance.mRemoteDataSource
+        val disposable = CineDataRepository.INSTANCE.mAPIService
                 .login(data)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

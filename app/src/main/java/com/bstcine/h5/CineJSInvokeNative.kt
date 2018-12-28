@@ -4,7 +4,7 @@ import android.webkit.JavascriptInterface
 import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.ui.login.LoginActivity
 
-open class CineJSInterface {
+open class CineJSInvokeNative {
 
     /* ----------------- common ----------------- */
 
