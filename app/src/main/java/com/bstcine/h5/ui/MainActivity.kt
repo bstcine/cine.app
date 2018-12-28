@@ -12,8 +12,8 @@ import com.blankj.utilcode.util.ToastUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
-import com.bstcine.h5.base.BaseWebActivity
-import com.bstcine.h5.base.BaseWebFragment
+import com.bstcine.h5.ui.h5.H5Activity
+import com.bstcine.h5.ui.h5.H5Fragment
 import com.bstcine.h5.ui.csub.CSubFragment
 import com.bstcine.h5.ui.login.LoginActivity
 
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             if (mCurrentPrimaryItem is CSubFragment) {
                 (mCurrentPrimaryItem as CSubFragment).emitJs("android_call_h5_test", "joe")
             } else {
-                ActivityUtils.startActivity(Bundle().apply { putString("url", "https://dev.bstcine.com") }, BaseWebActivity::class.java)
+                ActivityUtils.startActivity(Bundle().apply { putString("url", "https://dev.bstcine.com") }, H5Activity::class.java)
             }
         }
 
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
             mCurTransaction.add(R.id.container, fragment!!, R.id.action_csub.toString()).hide(fragment)
         }
 
-        mCurTransaction.commitNowAllowingStateLoss()
+        mCurTransaction.commitAllowingStateLoss()
     }
 
     /**
@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getFragmentByItemId(itemId: Int): Fragment? {
         val tabConfig = hashMapOf(R.id.action_store to CineConfig.H5_URL_STORE, R.id.action_mine to CineConfig.H5_URL_MINE, R.id.action_learn to CineConfig.H5_URL_LEARN)
-        return if (itemId == R.id.action_csub) CSubFragment() else if (tabConfig[itemId] == null) null else BaseWebFragment.forUrl(tabConfig[itemId].toString())
+        return if (itemId == R.id.action_csub) CSubFragment() else if (tabConfig[itemId] == null) null else H5Fragment.forUrl(tabConfig[itemId].toString())
     }
 
     companion object {

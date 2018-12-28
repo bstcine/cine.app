@@ -1,7 +1,7 @@
-package com.bstcine.h5.base
+package com.bstcine.h5.ui.h5
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -24,7 +24,7 @@ import com.tencent.smtt.export.external.interfaces.SslErrorHandler
 import com.tencent.smtt.export.external.interfaces.SslError
 import com.tencent.smtt.sdk.*
 
-open class BaseWebFragment : Fragment() {
+open class H5Fragment : Fragment() {
 
     private var mUrl: String? = null
 
@@ -42,7 +42,7 @@ open class BaseWebFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.base_fragment_web, container, false)
+        val view = inflater.inflate(R.layout.fragment_h5, container, false)
 
         mRefresh = view.findViewById(R.id.refresh)
         mViewParent = view.findViewById(R.id.webView)
@@ -102,15 +102,28 @@ open class BaseWebFragment : Fragment() {
 
         webView.webViewClient = object : WebViewClient() {
 
+            private var time: Long? = null
+
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 if (!url!!.contains("bstcine.com")) return true
 
-                ActivityUtils.startActivity(Bundle().apply { putString("url", url) }, BaseWebActivity::class.java)
+                ActivityUtils.startActivity(Bundle().apply { putString("url", url) }, H5Activity::class.java)
                 return true
             }
 
             override fun onReceivedSslError(p0: WebView?, p1: SslErrorHandler?, p2: SslError?) {
                 p1!!.proceed()
+            }
+
+            override fun onPageStarted(p0: WebView?, p1: String?, p2: Bitmap?) {
+                super.onPageStarted(p0, p1, p2)
+                time = System.currentTimeMillis()
+            }
+
+            override fun onPageFinished(p0: WebView?, p1: String?) {
+                super.onPageFinished(p0, p1)
+                Log.d(this@H5Fragment::class.java.simpleName, "page time: ${System.currentTimeMillis() - time!!}")
+                (activity as AppCompatActivity).supportActionBar?.title = p0?.title
             }
         }
 
@@ -208,7 +221,7 @@ open class BaseWebFragment : Fragment() {
 
         @JvmStatic
         fun forUrl(url: String) =
-                BaseWebFragment().apply {
+                H5Fragment().apply {
                     arguments = Bundle().apply {
                         putString(KEY_WEB_URL, url)
                     }

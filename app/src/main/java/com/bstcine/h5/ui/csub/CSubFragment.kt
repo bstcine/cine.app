@@ -9,7 +9,7 @@ import com.bstcine.h5.CineConfig
 import com.bstcine.h5.CineJSInterface
 import com.bstcine.h5.data.JsModel
 import com.bstcine.h5.ui.MsgActivity
-import com.bstcine.h5.base.BaseWebFragment
+import com.bstcine.h5.ui.h5.H5Fragment
 import com.bstcine.h5.widget.X5WebView
 import com.google.gson.Gson
 import io.reactivex.Observable
@@ -17,7 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 
-class CSubFragment : BaseWebFragment() {
+class CSubFragment : H5Fragment() {
 
     override fun init(refresh: SwipeRefreshLayout?, parent: FrameLayout?, webView: X5WebView?) {
         super.init(refresh, parent, webView)

@@ -4,7 +4,7 @@
     android:id="@+id/refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".base.BaseWebFragment">
+    tools:context=".ui.h5.H5Fragment">
 
     <FrameLayout
         android:id="@+id/webView"

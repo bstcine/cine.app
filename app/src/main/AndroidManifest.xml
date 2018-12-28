@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bstcine.h5.base.BaseWebActivity"
+            android:name="com.bstcine.h5.ui.h5.H5Activity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
