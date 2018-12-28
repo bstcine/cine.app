@@ -1,6 +1,7 @@
 package com.bstcine.h5
 
 import android.text.TextUtils
+import com.bstcine.h5.api.CineService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.*
@@ -22,7 +23,7 @@ class CineRepository {
         val instance: CineRepository by lazy { Holder.INSTANCE }
     }
 
-    var mRemoteDataSource: CineAPI
+    var mRemoteDataSource: CineService
 
     init {
         val httpClient = OkHttpClient.Builder()
@@ -33,7 +34,7 @@ class CineRepository {
                     val original = chain.request()
 
                     //统一参数
-                    val token = CineApplication.INSTANCE.token()
+                    val token = CineApp.INSTANCE.token()
                     val sitecode = "cine.web.android.kotlin"
 
                     val requestBuilder = original.newBuilder()
@@ -65,7 +66,7 @@ class CineRepository {
 
                     val cookieStr = resp.header("Set-Cookie")
                     if (!TextUtils.isEmpty(cookieStr) && cookieStr!!.contains("token=;")) {
-                        CineApplication.INSTANCE.logout()
+                        CineApp.INSTANCE.logout()
                     }
                     resp
                 }
@@ -76,6 +77,6 @@ class CineRepository {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(httpClient.build())
                 .build()
-        mRemoteDataSource = retrofit.create(CineAPI::class.java)
+        mRemoteDataSource = retrofit.create(CineService::class.java)
     }
 }

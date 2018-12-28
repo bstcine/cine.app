@@ -6,10 +6,10 @@ import com.blankj.utilcode.util.SPUtils
 import com.tencent.smtt.sdk.QbSdk
 import kotlin.properties.Delegates
 
-class CineApplication : Application() {
+class CineApp : Application() {
 
     companion object {
-        var INSTANCE: CineApplication by Delegates.notNull()
+        var INSTANCE: CineApp by Delegates.notNull()
     }
 
     private var login = false

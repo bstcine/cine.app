@@ -9,7 +9,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
-import com.bstcine.h5.CineApplication
+import com.bstcine.h5.CineApp
 import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
 import com.bstcine.h5.ui.h5.H5Activity
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<FloatingActionButton>(R.id.fab).setOnLongClickListener {
-            CineApplication.INSTANCE.logout()
+            CineApp.INSTANCE.logout()
             ToastUtils.showLong("logout success.")
             reloadFragment()
             true
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
             val itemId = item.itemId
 
-            if ((itemId == R.id.action_learn || itemId == R.id.action_mine) && !CineApplication.INSTANCE.isLogin()) {
+            if ((itemId == R.id.action_learn || itemId == R.id.action_mine) && !CineApp.INSTANCE.isLogin()) {
                 mNextItemId = itemId
                 ActivityUtils.startActivityForResult(this@MainActivity, LoginActivity::class.java, REQUEST_LOGIN)
                 return@OnNavigationItemSelectedListener false

@@ -1,6 +1,6 @@
 package com.bstcine.h5.ui.login
 
-import com.bstcine.h5.CineApplication
+import com.bstcine.h5.CineApp
 import com.bstcine.h5.CineRepository
 import com.bstcine.h5.utils.NetUtil
 import com.google.gson.Gson
@@ -47,7 +47,7 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
                 val rs = result["result"] as Map<*, *>
 
                 val token = rs["token"].toString()
-                CineApplication.INSTANCE.login(token)
+                CineApp.INSTANCE.login(token)
                 loginView.onLoginSuccessWithoutRx(token, rs["user"] as Map<*, *>)
             }
         })
@@ -66,7 +66,7 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
                             val token = rs["token"].toString()
                             val user = rs["user"] as Map<*, *>
 
-                            CineApplication.INSTANCE.login(token)
+                            CineApp.INSTANCE.login(token)
                             loginView.onLoginSuccess(token, user)
                         }
                 )

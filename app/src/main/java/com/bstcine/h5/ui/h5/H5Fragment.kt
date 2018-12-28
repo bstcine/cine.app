@@ -14,7 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.blankj.utilcode.util.ActivityUtils
-import com.bstcine.h5.CineApplication
+import com.bstcine.h5.CineApp
 import com.bstcine.h5.CineJSInterface
 import com.bstcine.h5.R
 import com.bstcine.h5.widget.X5WebView
@@ -46,7 +46,7 @@ open class H5Fragment : Fragment() {
 
         mRefresh = view.findViewById(R.id.refresh)
         mViewParent = view.findViewById(R.id.webView)
-        mWebView = X5WebView(CineApplication.INSTANCE)
+        mWebView = X5WebView(CineApp.INSTANCE)
 
         init(mRefresh, mViewParent, mWebView)
         addJavascriptInterface(mWebView)
@@ -207,7 +207,7 @@ open class H5Fragment : Fragment() {
             "$url?sitecode=cine.web.android.kotlin"
         }
 
-        if (CineApplication.INSTANCE.isLogin()) tempUrl += "&token=" + CineApplication.INSTANCE.token()
+        if (CineApp.INSTANCE.isLogin()) tempUrl += "&token=" + CineApp.INSTANCE.token()
 
         return tempUrl
     }

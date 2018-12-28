@@ -15,7 +15,7 @@ open class CineJSInterface {
 
     @JavascriptInterface
     fun logout(arg0: String) {
-        CineApplication.INSTANCE.logout()
+        CineApp.INSTANCE.logout()
     }
 
     /* ----------------- common ----------------- */

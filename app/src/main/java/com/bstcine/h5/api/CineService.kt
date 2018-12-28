@@ -1,11 +1,14 @@
-package com.bstcine.h5
+package com.bstcine.h5.api
 
 import com.bstcine.h5.model.ResModel
 import io.reactivex.Flowable
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface CineAPI {
+/**
+ * REST API access points
+ */
+interface CineService {
 
     @POST("api/auth/signin")
     fun login(@Body data: Any): Flowable<ResModel<Any>>

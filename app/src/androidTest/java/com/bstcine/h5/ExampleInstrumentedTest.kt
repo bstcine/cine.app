@@ -17,7 +17,7 @@ import org.junit.Assert.*
 class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
-        // CineApplication of the app under test.
+        // CineApp of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
         assertEquals("com.bstcine.h5", appContext.packageName)
     }
