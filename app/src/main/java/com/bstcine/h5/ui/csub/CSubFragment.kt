@@ -34,7 +34,7 @@ class CSubFragment : H5Fragment() {
     }
 
     override fun addJavascriptInterface(webView: X5WebView?) {
-        webView?.addJavascriptInterface(object : CineJSInterface(webView) {
+        webView?.addJavascriptInterface(object : CineJSInterface() {
             @JavascriptInterface
             override fun openLessonPlayWindow(arg0: String) {
                 val rs = Gson().fromJson(arg0, JsModel::class.java)

@@ -191,7 +191,7 @@ open class H5Fragment : Fragment() {
     }
 
     open fun addJavascriptInterface(webView: X5WebView?) {
-        webView?.addJavascriptInterface(CineJSInterface(webView), "Android")
+        webView?.addJavascriptInterface(CineJSInterface(), "Android")
     }
 
     open fun loadUrl(webView: X5WebView?) {

@@ -1,7 +1,8 @@
 package com.bstcine.h5.data
 
 /**
- * Created by wangxiang on 2017/10/18.
+ * API 请求统一返回数据格式模型
+ * Created by itwangxiang on 2018/12/28.
  */
 
 class ResModel<T> {
