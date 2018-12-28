@@ -1,4 +1,4 @@
-package com.bstcine.h5.data
+package com.bstcine.h5.model
 
 /**
  * API 请求统一返回数据格式模型

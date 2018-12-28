@@ -1,9 +1,6 @@
-package com.bstcine.h5.data.source
+package com.bstcine.h5
 
 import android.text.TextUtils
-import com.bstcine.h5.CineApplication
-import com.bstcine.h5.CineConfig
-import com.bstcine.h5.CineAPI
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.*

@@ -1,13 +1,10 @@
 package com.bstcine.h5.ui.login
 
-import android.util.Log
 import com.bstcine.h5.CineApplication
-import com.bstcine.h5.data.source.CineRepository
+import com.bstcine.h5.CineRepository
 import com.bstcine.h5.utils.NetUtil
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import okhttp3.Call
 import okhttp3.Callback

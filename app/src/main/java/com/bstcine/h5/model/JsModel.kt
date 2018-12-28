@@ -1,4 +1,4 @@
-package com.bstcine.h5.data
+package com.bstcine.h5.model
 
 /**
  * H5 调用 Native 数据格式模型

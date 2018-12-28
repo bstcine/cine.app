@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.CineConfig
 import com.bstcine.h5.CineJSInterface
-import com.bstcine.h5.data.JsModel
+import com.bstcine.h5.model.JsModel
 import com.bstcine.h5.ui.MsgActivity
 import com.bstcine.h5.ui.h5.H5Fragment
 import com.bstcine.h5.widget.X5WebView
