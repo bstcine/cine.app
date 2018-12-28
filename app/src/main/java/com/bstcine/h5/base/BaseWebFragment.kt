@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.blankj.utilcode.util.ActivityUtils
 import com.bstcine.h5.CineApplication
 import com.bstcine.h5.CineJSInterface
 import com.bstcine.h5.R
@@ -104,9 +105,7 @@ open class BaseWebFragment : Fragment() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 if (!url!!.contains("bstcine.com")) return true
 
-                val intent = Intent(activity, BaseWebActivity::class.java)
-                intent.putExtra("url", url)
-                startActivity(intent)
+                ActivityUtils.startActivity(Bundle().apply { putString("url", url) }, BaseWebActivity::class.java)
                 return true
             }
 

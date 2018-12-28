@@ -35,9 +35,7 @@ class MainActivity : AppCompatActivity() {
             if (mCurrentPrimaryItem is CSubFragment) {
                 (mCurrentPrimaryItem as CSubFragment).emitJs("android_call_h5_test", "joe")
             } else {
-                val intent = Intent(this@MainActivity, BaseWebActivity::class.java)
-                intent.putExtra("url", "http://soft.imtt.qq.com/browser/tes/feedback.html")
-                startActivity(intent)
+                ActivityUtils.startActivity(Bundle().apply { putString("url", "https://dev.bstcine.com") }, BaseWebActivity::class.java)
             }
         }
 

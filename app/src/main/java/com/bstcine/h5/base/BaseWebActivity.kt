@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import com.bstcine.h5.CineConfig
 import com.bstcine.h5.R
 
 class BaseWebActivity : AppCompatActivity() {
@@ -15,7 +16,7 @@ class BaseWebActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val url = intent.getStringExtra("url")
+        val url = intent.extras?.getString("url") ?: CineConfig.H5_URL_STORE
         supportFragmentManager.beginTransaction()
                 .add(R.id.fragContainer, BaseWebFragment.forUrl(url))
                 .commit()
