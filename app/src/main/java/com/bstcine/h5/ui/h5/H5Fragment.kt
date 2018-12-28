@@ -3,6 +3,7 @@ package com.bstcine.h5.ui.h5
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -76,7 +77,7 @@ open class H5Fragment : Fragment() {
             }
         })
 
-        val webSetting = webView!!.settings
+        val webSetting = webView.settings
         webSetting.allowFileAccess = true
         webSetting.layoutAlgorithm = WebSettings.LayoutAlgorithm.NARROW_COLUMNS
         webSetting.setSupportZoom(true)
@@ -99,6 +100,11 @@ open class H5Fragment : Fragment() {
         // webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
         // webSetting.setPreFectch(true);
         webSetting.cacheMode = WebSettings.LOAD_DEFAULT
+
+        // 设置允许加载混合内容
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webSetting.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        }
 
         webView.webViewClient = object : WebViewClient() {
 
