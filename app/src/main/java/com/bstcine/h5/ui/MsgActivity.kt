@@ -14,8 +14,9 @@ class MsgActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val msg: TextView = findViewById(R.id.msg)
-        msg.text = intent?.extras?.getString("arg0")
+        findViewById<TextView>(R.id.msg).apply {
+            text = intent.extras?.getString("arg0")
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
