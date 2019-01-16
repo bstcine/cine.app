@@ -25,7 +25,7 @@ $ git clone https://github.com/bstcine/cine.kth5.git
 ### step 4: 
 使用 Android Studio 打开 `cine.kth5` 项目
 
-### step 5: 
+### step 5: （可选）
 点击菜单栏 `Build` -> `ReBuild project` 进行构建
 
 ### step 6: 
