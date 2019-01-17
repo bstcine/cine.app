@@ -28,4 +28,4 @@ Android Studio 会自动进行Gradle build...(需要一段时间）
 点击菜单栏 `Build` -> `ReBuild project` 进行构建
 
 ### step 4: 
-点击菜单栏 `Run` -> `Run 'app'` ，弹出 `Select Deployment Target` , 选择 `Connected Devices` 中的一个设备进行安装运行
+点击菜单栏 `Run` -> `Run 'app'` ，弹出 `Select Deployment Target` , 选择 `Connected Devices` 中的一个设备安装运行
