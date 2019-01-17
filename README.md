@@ -39,4 +39,10 @@ Android Studio 会自动进行Gradle build...(需要一段时间）
 
 ## 项目结构说明
 ```
+- api api
+- base 基类
+- model model
+- ui 界面
+- utils 工具
+- widget 插件
 ```
