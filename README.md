@@ -8,7 +8,10 @@ JSON 处理库 - GSON
 集成腾讯 X5 内核
 ```
 
-## Build
+<br>
+<br>
+
+## Setup
 
 - 确认系统已安装 
 [Java Sdk](https://www.oracle.com/technetwork/java/javase/downloads/index.html)  &   [Android Studio](https://developer.android.com/studio/)
@@ -29,3 +32,11 @@ Android Studio 会自动进行Gradle build...(需要一段时间）
 
 ### step 4: 
 点击菜单栏 `Run` -> `Run 'app'` ，弹出 `Select Deployment Target` , 选择 `Connected Devices` 中的一个设备安装运行
+
+
+<br>
+<br>
+
+## 项目结构说明
+```
+```
