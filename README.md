@@ -42,7 +42,7 @@ Android Studio 会自动进行Gradle build...(需要一段时间）
 - api api
 - base 基类
 - model model
-- ui 界面
+- ui 页面
 - utils 工具
 - widget 插件
 ```
