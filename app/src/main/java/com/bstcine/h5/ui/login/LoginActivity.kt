@@ -24,11 +24,11 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         mPassword = findViewById(R.id.password)
         mBtnLogin = findViewById(R.id.btn_login)
 
+        LoginPresenter(this)
+
         mBtnLogin.setOnClickListener {
             presenter.login(mUserName.text.toString(), mPassword.text.toString())
         }
-
-        LoginPresenter(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             if ((itemId == R.id.action_learn || itemId == R.id.action_mine) && !CineApp.INSTANCE.isLogin()) {
                 mNextItemId = itemId
                 ActivityUtils.startActivityForResult(this@MainActivity, LoginActivity::class.java, REQUEST_LOGIN)
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
 
             val mFragmentManager = supportFragmentManager
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 if (itemId == R.id.action_csub) (fragment as CSubFragment).emitJs("reload", false)
             } else {
                 fragment = getFragmentByItemId(itemId)
-                mCurTransaction.add(R.id.container, fragment!!, itemId.toString()).show(fragment)
+                mCurTransaction.add(R.id.container, fragment!!, itemId.toString())
             }
 
             if (mCurrentPrimaryItem != null && fragment !== mCurrentPrimaryItem) {
